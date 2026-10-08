@@ -1,0 +1,15 @@
+/**
+ * client/src/store/
+ *
+ * Global client state management.
+ *
+ * Likely implementation: Zustand (lightweight) or React Context.
+ * Decision deferred to Phase — Frontend Implementation.
+ *
+ * Planned stores:
+ *   transactionStore.js  — Active and historical transactions
+ *   userStore.js         — Current user / session
+ *   uiStore.js           — UI state (sidebar open, active modal, etc.)
+ */
+
+// Directory marker — delete when first store is added.

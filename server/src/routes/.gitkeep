@@ -1,0 +1,15 @@
+/**
+ * server/src/routes/
+ *
+ * Route modules will live here — one file per top-level API resource.
+ *
+ * Planned modules (not yet implemented):
+ *   transactions.js      — initiate, status, history
+ *   routeOptimizer.js   — select optimal settlement rail
+ *   compliance.js       — KYC/AML checks
+ *   fx.js               — FX rates and fee calculations
+ *   webhooks.js         — incoming notifications from payment rails
+ */
+
+// This file intentionally left as a directory marker.
+// Delete this file once real route modules are added.

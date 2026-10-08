@@ -1,0 +1,15 @@
+/**
+ * client/src/pages/
+ *
+ * Page-level React components. Each file corresponds to a top-level route.
+ *
+ * Planned pages (not yet implemented):
+ *   Dashboard.jsx          — Platform overview (transaction volumes, route performance)
+ *   SendMoney.jsx          — Initiate a new remittance
+ *   TransactionDetail.jsx  — Full lifecycle view for a single transaction
+ *   RouteExplorer.jsx      — Interactive view of available settlement routes
+ *   AuditTrail.jsx         — Blockchain-backed audit log viewer
+ *   Settings.jsx           — User/account settings
+ */
+
+// Directory marker — delete when first page component is added.

@@ -1,0 +1,17 @@
+-- database/migrations/README.md (file marker)
+--
+-- Database migrations for the Cross-Border Remittance Platform.
+-- Target: Supabase / PostgreSQL.
+--
+-- Planned tables (not yet implemented):
+--
+--   users              — sender and recipient profiles (no raw PII in cleartext)
+--   transactions       — core remittance transaction records
+--   transaction_events — append-only event log per transaction
+--   route_selections   — historical route choices and their outcomes
+--   compliance_checks  — KYC/AML check results (references only, no raw docs)
+--   blockchain_records — references to on-chain settlement records
+--   fx_rate_snapshots  — FX rates captured at transaction time for auditability
+--
+-- Naming convention: 000_description.sql (zero-padded sequential)
+-- Run with: supabase db push  OR  psql -f <file>

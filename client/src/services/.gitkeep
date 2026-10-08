@@ -1,0 +1,13 @@
+/**
+ * client/src/services/
+ *
+ * API client services — thin wrappers over fetch/axios for each server endpoint.
+ *
+ * Planned services (not yet implemented):
+ *   api.js              — Base fetch wrapper with auth headers and error handling
+ *   transactionApi.js   — Transaction CRUD and status polling
+ *   routeApi.js         — Route analysis and recommendation
+ *   fxApi.js            — FX rate and conversion endpoints
+ */
+
+// Directory marker — delete when first service is added.
