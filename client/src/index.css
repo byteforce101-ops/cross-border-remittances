@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface-900 text-gray-100 font-sans antialiased;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
+}
+
+@layer components {
+  /* ── Cards ────────────────────────────── */
+  .card {
+    @apply bg-white border border-surface-700 rounded-xl shadow-card;
+  }
+  .card-hover {
+    @apply card transition-all duration-200 hover:border-brand-300 hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  /* ── Buttons ──────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 bg-brand-500 hover:bg-brand-600
+           text-white font-semibold text-sm rounded-lg transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-brand-400/50 shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-surface-750
+           text-gray-200 font-medium text-sm rounded-lg border border-surface-700 shadow-sm
+           transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-brand-400/30;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-gray-100
+           hover:bg-surface-750 font-medium text-sm rounded-lg transition-all duration-150;
+  }
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 hover:bg-red-100
+           text-red-700 hover:text-red-800 font-semibold text-sm rounded-lg border border-red-200
+           transition-all duration-150;
+  }
+  .btn-success {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600
+           text-white font-semibold text-sm rounded-lg transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-emerald-400/50 shadow-glow-success;
+  }
+
+  /* ── Inputs ───────────────────────────── */
+  .input {
+    @apply w-full px-3.5 py-2.5 bg-white border border-surface-600 rounded-lg
+           text-gray-100 text-sm placeholder-gray-400 shadow-sm
+           focus:outline-none focus:ring-2 focus:ring-brand-400/40 focus:border-brand-500
+           transition-all duration-150;
+  }
+  .select {
+    @apply input appearance-none cursor-pointer;
+  }
+  .label {
+    @apply block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wide;
+  }
+
+  /* ── Badges ───────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .badge-success { @apply badge bg-emerald-50 text-emerald-700 border border-emerald-200; }
+  .badge-warning { @apply badge bg-amber-50 text-amber-700 border border-amber-200; }
+  .badge-danger  { @apply badge bg-red-50 text-red-700 border border-red-200; }
+  .badge-info    { @apply badge bg-indigo-50 text-indigo-700 border border-indigo-200; }
+  .badge-neutral { @apply badge bg-slate-100 text-slate-700 border border-slate-200; }
+  .badge-demo    { @apply badge bg-amber-100/80 text-amber-900 border border-amber-300 font-mono text-[10px] tracking-widest uppercase font-semibold; }
+
+  /* ── Table ────────────────────────────── */
+  .table-wrapper {
+    @apply overflow-x-auto rounded-xl border border-surface-700 bg-white shadow-card;
+  }
+  .table { @apply w-full text-sm; }
+  .table thead tr { @apply border-b border-surface-700 bg-surface-850; }
+  .table th { @apply px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider; }
+  .table tbody tr { @apply border-b border-surface-700/60 hover:bg-surface-850/70 transition-colors cursor-pointer; }
+  .table td { @apply px-4 py-3.5 text-gray-200; }
+
+  /* ── Section header ───────────────────── */
+  .section-title {
+    @apply text-lg font-bold text-gray-100;
+  }
+  .section-subtitle {
+    @apply text-sm text-gray-400 mt-0.5;
+  }
+
+  /* ── Step indicator ───────────────────── */
+  .step-active {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-brand-500 text-white font-bold text-sm shadow-md;
+  }
+  .step-done {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700;
+  }
+  .step-pending {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-surface-850 border border-surface-600 text-gray-400 font-semibold text-sm;
+  }
+
+  /* ── KPI card ─────────────────────────── */
+  .kpi-card {
+    @apply card p-5 flex flex-col gap-1;
+  }
+  .kpi-value {
+    @apply text-2xl font-bold text-gray-100 mt-1;
+  }
+  .kpi-label {
+    @apply text-xs font-semibold text-gray-400 uppercase tracking-wide;
+  }
+  .kpi-delta-pos { @apply text-xs text-emerald-600 font-semibold; }
+  .kpi-delta-neg { @apply text-xs text-red-600 font-semibold; }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-indigo-600;
+  }
+  .border-glow {
+    box-shadow: 0 0 0 1px rgba(79,70,229,0.3), 0 0 16px rgba(79,70,229,0.1);
+  }
+  .mono { @apply font-mono; }
+}

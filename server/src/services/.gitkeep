@@ -1,0 +1,15 @@
+/**
+ * server/src/services/
+ *
+ * Business-logic services — pure, framework-agnostic modules.
+ *
+ * Planned services (not yet implemented):
+ *   transactionService.js     — transaction lifecycle management
+ *   routeOptimizerService.js  — scoring and selecting settlement routes
+ *   fxService.js              — FX rate aggregation and fee computation
+ *   riskService.js            — risk scoring (later powered by AI)
+ *   blockchainService.js      — writing records / reading state from chain
+ *   notificationService.js    — push/email/webhook notifications
+ */
+
+// This file intentionally left as a directory marker.

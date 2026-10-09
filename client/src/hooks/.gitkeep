@@ -1,0 +1,14 @@
+/**
+ * client/src/hooks/
+ *
+ * Custom React hooks.
+ *
+ * Planned hooks (not yet implemented):
+ *   useTransaction.js       — Fetch and poll a single transaction
+ *   useTransactionList.js   — Paginated transaction list with filters
+ *   useFxRate.js            — Live/mock FX rate for a currency pair
+ *   useRouteAnalysis.js     — Trigger and consume route analysis results
+ *   useBlockchainRecord.js  — Fetch on-chain audit entry for a transaction
+ */
+
+// Directory marker — delete when first hook is added.

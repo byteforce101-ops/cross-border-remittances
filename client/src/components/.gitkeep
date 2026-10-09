@@ -1,0 +1,15 @@
+/**
+ * client/src/components/
+ *
+ * Reusable UI components.
+ *
+ * Planned sub-directories:
+ *   common/       — Buttons, inputs, badges, modals, toasts
+ *   layout/       — AppShell, Sidebar, Header, Footer
+ *   transaction/  — TransactionCard, TransactionTimeline, StatusBadge
+ *   route/        — RouteComparisonTable, RouteScoreCard
+ *   charts/       — VolumeChart, RouteDistributionChart (Recharts-based)
+ *   blockchain/   — AuditEntry, BlockchainBadge, TxHashLink
+ */
+
+// Directory marker — delete when first component is added.

@@ -1,0 +1,9 @@
+-- database/seeds/.gitkeep
+--
+-- Seed scripts for development / demo data.
+-- Will contain:
+--   001_demo_users.sql         — sample sender and recipient accounts
+--   002_demo_transactions.sql  — representative transaction history for UI demo
+--   003_demo_routes.sql        — historical route performance data
+--
+-- Seeds are ONLY for development. Never run against production.

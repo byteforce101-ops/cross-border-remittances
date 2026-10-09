@@ -1,0 +1,13 @@
+/**
+ * server/src/models/
+ *
+ * Database model / query helpers (Supabase / PostgreSQL).
+ *
+ * Planned models (not yet implemented):
+ *   transaction.js   — CRUD for remittance transactions
+ *   user.js          — sender / recipient profiles
+ *   auditLog.js      — immutable event log
+ *   route.js         — available and historical route metadata
+ */
+
+// This file intentionally left as a directory marker.

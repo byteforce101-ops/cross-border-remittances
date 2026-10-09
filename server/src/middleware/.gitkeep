@@ -1,0 +1,14 @@
+/**
+ * server/src/middleware/
+ *
+ * Express middleware modules.
+ *
+ * Planned middleware (not yet implemented):
+ *   auth.js          — JWT / API key verification
+ *   rateLimiter.js   — per-IP and per-user rate limiting
+ *   errorHandler.js  — centralised error formatting
+ *   requestLogger.js — structured request/response logging
+ *   validate.js      — Zod schema validation helper
+ */
+
+// This file intentionally left as a directory marker.

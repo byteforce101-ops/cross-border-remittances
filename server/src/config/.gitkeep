@@ -1,0 +1,13 @@
+/**
+ * server/src/config/
+ *
+ * Centralised configuration loading.
+ *
+ * Planned config modules (not yet implemented):
+ *   db.js            — Supabase client initialisation
+ *   env.js           — validated environment variable access (via Zod)
+ *   logger.js        — structured logger (pino or winston)
+ *   constants.js     — application-wide constants (supported corridors, currencies, etc.)
+ */
+
+// This file intentionally left as a directory marker.
