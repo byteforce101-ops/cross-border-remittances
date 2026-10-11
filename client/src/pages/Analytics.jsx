@@ -1,137 +1,82 @@
-import { VOLUME_CHART_DATA } from '../services/mockData.js';
-import {
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell,
-} from 'recharts';
-
-const ROUTE_DIST = [
-  { name: 'UPI/NPCI', value: 62, color: '#4f46e5' },
-  { name: 'Bank', value: 18, color: '#10b981' },
-  { name: 'SWIFT', value: 12, color: '#f59e0b' },
-  { name: 'Blockchain', value: 8, color: '#8b5cf6' },
-];
-
-const COST_DATA = [
-  { date: 'Oct 1', avgCost: 198 }, { date: 'Oct 2', avgCost: 185 },
-  { date: 'Oct 3', avgCost: 204 }, { date: 'Oct 4', avgCost: 178 },
-  { date: 'Oct 5', avgCost: 192 }, { date: 'Oct 6', avgCost: 171 },
-  { date: 'Oct 7', avgCost: 183 }, { date: 'Oct 8', avgCost: 186 },
-];
-
-const TT = {
-  backgroundColor: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '8px',
-  fontSize: '12px',
-  color: '#0f172a',
-  boxShadow: '0 4px 12px rgba(15,23,42,0.08)',
-};
+import { ROUTE_DISTRIBUTION, DAILY_TRANSFERS_DATA } from '../services/mockData.js';
 
 export default function Analytics() {
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex items-start justify-between">
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-gray-100">Analytics</h2>
-          <p className="text-sm text-gray-400 mt-0.5">Platform performance metrics and trends</p>
+          <h1 className="font-serif text-[28px] text-ink font-semibold">Analytics &amp; Intelligence</h1>
+          <p className="text-mute text-sm mt-0.5">
+            14-day corridor volume, rail distribution, and settlement cost efficiency · <span className="demo">DEMO</span>
+          </p>
         </div>
-        <span className="badge-demo">MOCK DATA</span>
       </div>
 
-      {/* Summary KPIs */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {[
-          ['Transfer Volume', '₹8.42 Cr', 'This month'],
-          ['Transactions', '12,486', 'This month'],
-          ['Avg Transaction', '₹67,430', 'Per transfer'],
-          ['Avg Cost/Tx', '₹186', 'Total fees'],
-        ].map(([label, val, sub]) => (
-          <div key={label} className="card p-5 bg-white border border-surface-700 shadow-card">
-            <div className="text-xs text-gray-400 font-semibold uppercase tracking-wide">{label}</div>
-            <div className="text-2xl font-bold text-gray-100 mt-1">{val}</div>
-            <div className="text-xs text-gray-400 font-medium mt-1">{sub}</div>
+      {/* 3 Headline Metrics */}
+      <dl className="grid sm:grid-cols-3 gap-4">
+        <div className="bg-white border border-dashed border-warn/60 rounded p-4">
+          <dt className="text-sm text-mute">14-Day Completed Transfers</dt>
+          <dd className="font-serif text-[28px] text-ink font-semibold num my-1">984</dd>
+          <dd className="text-sm text-ok">▲ 98.4% corridor success rate</dd>
+        </div>
+        <div className="bg-white border border-dashed border-warn/60 rounded p-4">
+          <dt className="text-sm text-mute">Average Total Remittance Cost</dt>
+          <dd className="font-serif text-[28px] text-ink font-semibold num my-1">0.84%</dd>
+          <dd className="text-sm text-mute">Transfer fee + FX conversion spread</dd>
+        </div>
+        <div className="bg-white border border-dashed border-warn/60 rounded p-4">
+          <dt className="text-sm text-mute">Fastest Rail Average</dt>
+          <dd className="font-serif text-[28px] text-ink font-semibold num my-1">10 min</dd>
+          <dd className="text-sm text-ok">UPI-linked partner rail (46% share)</dd>
+        </div>
+      </dl>
+
+      {/* Charts Grid */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Daily volume */}
+        <section className="bg-white border border-rule rounded p-5 space-y-3">
+          <h2 className="font-serif text-lg font-semibold text-ink">14-Day Transfer Volume Trend</h2>
+          <p className="text-xs text-mute">Volume band (55 – 80 transfers/day) illustrated in teal.</p>
+          <div className="w-full pt-2">
+            <svg viewBox="0 0 420 140" className="w-full h-auto" role="img">
+              <rect x="0" y="30" width="420" height="50" fill="#E3F0EE" opacity=".6" />
+              <line x1="0" y1="30" x2="420" y2="30" stroke="#0E6B62" strokeDasharray="4 4" />
+              <line x1="0" y1="80" x2="420" y2="80" stroke="#0E6B62" strokeDasharray="4 4" />
+              <g fill="#16233B" opacity=".8">
+                {DAILY_TRANSFERS_DATA.slice(0, 13).map((val, i) => (
+                  <rect key={i} x={6 + i * 30} y={130 - val} width="22" height={val} />
+                ))}
+              </g>
+              <rect x="396" y="59" width="22" height="71" fill="#0E6B62" />
+              <text x="396" y="52" fontSize="11" fill="#0E6B62" fontWeight="600">71</text>
+              <text x="0" y="12" fontSize="11" fill="#5B6577">Typical range 55–80</text>
+              <text x="6" y="138" fontSize="10" fill="#5B6577">26 Sep</text>
+              <text x="380" y="138" fontSize="10" fill="#5B6577">Today</text>
+            </svg>
           </div>
-        ))}
-      </div>
+        </section>
 
-      {/* Volume & cost */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="card p-5 bg-white border border-surface-700 shadow-card">
-          <h3 className="section-title mb-4">Daily Transaction Count</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={VOLUME_CHART_DATA}>
-              <defs>
-                <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={TT} />
-              <Area type="monotone" dataKey="txCount" stroke="#4f46e5" strokeWidth={2} fill="url(#grad1)" name="Transactions" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="card p-5 bg-white border border-surface-700 shadow-card">
-          <h3 className="section-title mb-4">Avg Cost per Transaction (₹)</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={COST_DATA}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} domain={[150, 220]} />
-              <Tooltip contentStyle={TT} formatter={v => [`₹${v}`, 'Avg cost']} />
-              <Bar dataKey="avgCost" fill="#10b981" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Route + risk distributions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="card p-5 bg-white border border-surface-700 shadow-card">
-          <h3 className="section-title mb-4">Route Distribution</h3>
-          <div className="flex items-center gap-6">
-            <ResponsiveContainer width={160} height={160}>
-              <PieChart>
-                <Pie data={ROUTE_DIST} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value" paddingAngle={3}>
-                  {ROUTE_DIST.map((e, i) => <Cell key={i} fill={e.color} strokeWidth={0} />)}
-                </Pie>
-                <Tooltip contentStyle={TT} formatter={v => [`${v}%`, '']} />
-              </PieChart>
-            </ResponsiveContainer>
-            <ul className="space-y-2 flex-1">
-              {ROUTE_DIST.map(d => (
-                <li key={d.name} className="flex items-center gap-3">
-                  <span className="w-3 h-3 rounded-sm" style={{ background: d.color }} />
-                  <span className="text-sm text-gray-400 font-medium">{d.name}</span>
-                  <span className="text-sm font-bold text-gray-100 ml-auto">{d.value}%</span>
-                </li>
-              ))}
-            </ul>
+        {/* Rail breakdown */}
+        <section className="bg-white border border-rule rounded p-5 space-y-3">
+          <h2 className="font-serif text-lg font-semibold text-ink">Corridor Settlement Distribution</h2>
+          <p className="text-xs text-mute">Routing share &amp; reliability across active payment rails.</p>
+          <div className="space-y-4 pt-2">
+            {ROUTE_DISTRIBUTION.map((item) => (
+              <div key={item.name} className="space-y-1 text-sm">
+                <div className="flex justify-between font-medium">
+                  <span className="text-ink">{item.name}</span>
+                  <span className="num text-mute">{item.share}% · {item.successRate}% success</span>
+                </div>
+                <div className="h-2 bg-rule rounded overflow-hidden">
+                  <div className={`h-2 ${item.barColor} rounded`} style={{ width: `${item.share}%` }} />
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-
-        <div className="card p-5 bg-white border border-surface-700 shadow-card">
-          <h3 className="section-title mb-4">Corridor Volume Share</h3>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={[
-              { corridor: 'UAE→IN', share: 38.2 },
-              { corridor: 'USA→IN', share: 31.5 },
-              { corridor: 'UK→IN', share: 17.4 },
-              { corridor: 'SG→IN', share: 12.9 },
-            ]} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-              <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} unit="%" />
-              <YAxis dataKey="corridor" type="category" tick={{ fill: '#475569', fontSize: 12, fontWeight: 500 }} axisLine={false} tickLine={false} width={60} />
-              <Tooltip contentStyle={TT} formatter={v => [`${v}%`, 'Volume']} />
-              <Bar dataKey="share" fill="#f59e0b" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        </section>
       </div>
     </div>
   );
 }
+

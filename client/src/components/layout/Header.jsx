@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Bell, Search, ChevronDown, User, X } from 'lucide-react';
+import { Bell, Search, X } from 'lucide-react';
 import { useStore } from '../../store/useStore.js';
-import clsx from 'clsx';
 
 const PAGE_TITLES = {
   '/':             'Overview',
-  '/send':         'Send Money',
+  '/send':         'Send money',
   '/transactions': 'Transactions',
   '/recipients':   'Recipients',
-  '/routes':       'Payment Routes',
-  '/risk':         'Risk & Compliance',
-  '/settlement':   'Settlement',
+  '/routes':       'Payment routes',
+  '/risk':         'Risk & compliance',
+  '/settlement':   'Settlement monitor',
   '/operations':   'Operations',
   '/analytics':    'Analytics',
   '/settings':     'Settings',
@@ -26,9 +25,10 @@ export default function Header() {
   const markRead = useStore(s => s.markNotificationRead);
   const unread = notifications.filter(n => !n.read).length;
 
-  const title = Object.entries(PAGE_TITLES).find(([path]) =>
-    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path)
-  )?.[1] || 'Platform';
+  const title =
+    Object.entries(PAGE_TITLES).find(([path]) =>
+      path === '/' ? location.pathname === '/' : location.pathname.startsWith(path)
+    )?.[1] || 'Platform';
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -39,85 +39,73 @@ export default function Header() {
   };
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 bg-white border-b border-surface-700 sticky top-0 z-20 shadow-sm">
-      {/* Left — Page title */}
+    <header className="h-14 flex items-center justify-between px-4 lg:px-8 border-b border-rule bg-canvas sticky top-0 z-20">
+      {/* Left — Logo / Title on mobile, Title on desktop */}
       <div className="flex items-center gap-3">
-        <h1 className="text-base font-bold text-gray-100">{title}</h1>
-        <span className="badge-demo">DEMO / SANDBOX</span>
+        <span className="lg:hidden font-serif font-bold text-lg text-ink">
+          Remit<span className="text-acc">Ledger</span>
+        </span>
+        <span className="hidden lg:inline text-sm font-semibold text-ink">
+          {title}
+        </span>
+        <span className="demo hidden sm:inline-block">DEMO SIMULATOR</span>
       </div>
 
-      {/* Right — Search + actions */}
+      {/* Right — Search & Notifications */}
       <div className="flex items-center gap-3">
-        {/* Search */}
         <form onSubmit={handleSearch} className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-mute" />
           <input
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search transactions…"
-            className="pl-8 pr-3 py-1.5 bg-surface-850 border border-surface-700 rounded-lg text-sm text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 w-48 transition-all focus:w-64"
+            placeholder="Search TXN-D-..."
+            className="pl-8 pr-3 py-1.5 bg-white border border-rule rounded text-xs text-ink placeholder-mute focus:outline-none focus:border-acc w-36 sm:w-48 transition-all focus:w-56"
           />
         </form>
-
-        {/* Environment indicator */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-lg">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse-slow" />
-          <span className="text-[10px] font-mono text-amber-800 font-bold tracking-wider uppercase">Mock APIs</span>
-        </div>
 
         {/* Notifications */}
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 text-gray-400 hover:text-gray-100 hover:bg-surface-750 rounded-lg transition-all"
+            className="relative p-2 text-mute hover:text-ink hover:bg-white rounded transition-colors"
+            aria-label="Notifications"
           >
             <Bell size={16} />
             {unread > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-warn rounded-full" />
             )}
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 top-full mt-2 w-80 card py-2 shadow-card-hover z-50 animate-fade-in bg-white border border-surface-700">
-              <div className="flex items-center justify-between px-4 py-2 border-b border-surface-700">
-                <span className="text-sm font-semibold text-gray-100">Notifications</span>
+            <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-rule rounded p-3 shadow-lg z-50 animate-fade-in">
+              <div className="flex items-center justify-between pb-2 border-b border-rule mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-mute">Alerts &amp; Notices</span>
                 <button onClick={() => setShowNotifications(false)}>
-                  <X size={14} className="text-gray-400 hover:text-gray-600" />
+                  <X size={14} className="text-mute hover:text-ink" />
                 </button>
               </div>
-              {notifications.map(n => (
-                <div
-                  key={n.id}
-                  onClick={() => { markRead(n.id); setShowNotifications(false); }}
-                  className={clsx(
-                    'flex items-start gap-3 px-4 py-3 hover:bg-surface-750 cursor-pointer transition-colors border-b border-surface-700/40 last:border-0',
-                    !n.read ? 'bg-brand-50/40' : 'bg-white'
-                  )}
-                >
-                  <span className={clsx(
-                    'mt-1 w-2 h-2 rounded-full flex-shrink-0',
-                    n.type === 'risk' ? 'bg-red-500' : n.type === 'success' ? 'bg-emerald-500' : 'bg-brand-500'
-                  )} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-gray-200 font-medium leading-relaxed">{n.message}</p>
-                    <p className="text-[10px] text-gray-400 mt-0.5">{n.time}</p>
+              <div className="divide-y divide-rule max-h-72 overflow-y-auto">
+                {notifications.map(n => (
+                  <div
+                    key={n.id}
+                    onClick={() => {
+                      markRead(n.id);
+                      setShowNotifications(false);
+                    }}
+                    className={`py-2 px-1 cursor-pointer transition-colors ${
+                      !n.read ? 'bg-canvas/50' : ''
+                    }`}
+                  >
+                    <p className="text-xs font-medium text-ink">{n.message}</p>
+                    <p className="text-[10px] text-mute mt-0.5">{n.time}</p>
                   </div>
-                  {!n.read && <span className="w-1.5 h-1.5 bg-brand-500 rounded-full flex-shrink-0 mt-1" />}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </div>
-
-        {/* Profile */}
-        <button className="flex items-center gap-2 px-3 py-1.5 hover:bg-surface-750 rounded-lg transition-all border border-transparent hover:border-surface-700">
-          <div className="w-7 h-7 bg-brand-gradient rounded-full flex items-center justify-center shadow-sm">
-            <User size={13} className="text-white" />
-          </div>
-          <span className="text-sm font-medium text-gray-200 hidden sm:block">Operator</span>
-          <ChevronDown size={13} className="text-gray-400" />
-        </button>
       </div>
     </header>
   );
 }
+

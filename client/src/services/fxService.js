@@ -1,49 +1,93 @@
-/** client/src/services/fxService.js — Mock FX rate service */
+/**
+ * client/src/services/fxService.js
+ * FX rate and conversion calculations matching the Ledger design prototype.
+ */
 
-const MOCK_RATES_TO_INR = { AED: 22.7, USD: 83.5, GBP: 104.8, SGD: 61.4, EUR: 90.2, INR: 1 };
-const FEE_RATE = 0.005; // 0.5%
-const FX_SPREAD = 0.008; // 0.8%
+const MID_MARKET_RATES = {
+  AED: 24.12, // 1 AED = 24.12 INR
+  USD: 83.95, // 1 USD = 83.95 INR
+  GBP: 108.50, // 1 GBP = 108.50 INR
+  SGD: 63.80, // 1 SGD = 63.80 INR
+  EUR: 91.40, // 1 EUR = 91.40 INR
+  INR: 1.0,
+};
 
 export const fxService = {
-  getRate(fromCurrency, toCurrency = 'INR') {
-    const fromRate = MOCK_RATES_TO_INR[fromCurrency];
-    const toRate = MOCK_RATES_TO_INR[toCurrency];
-    if (!fromRate || !toRate) throw new Error(`Unsupported currency: ${fromCurrency} or ${toCurrency}`);
-    return fromRate / toRate;
+  getMidMarketRate(fromCurrency = 'AED') {
+    return MID_MARKET_RATES[fromCurrency] || 24.12;
   },
 
-  calculate(fromAmount, fromCurrency) {
-    const rate = this.getRate(fromCurrency);
-    const midRate = rate;
-    const clientRate = midRate * (1 - FX_SPREAD);
-    const fxFeeINR = fromAmount * midRate * FX_SPREAD;
-    const transferFeeINR = Math.max(fromAmount * midRate * FEE_RATE, 150);
-    const grossINR = fromAmount * clientRate;
-    const netINR = grossINR - transferFeeINR;
-    const totalFeeINR = fxFeeINR + transferFeeINR;
+  calculate({ fromAmount, fromCurrency = 'AED', route }) {
+    const amt = parseFloat(fromAmount) || 0;
+    const midRate = this.getMidMarketRate(fromCurrency);
+
+    // Route-specific transfer fee and rate
+    const feeAED = route ? route.feeAED : 12.00;
+    const spreadPct = route ? route.rateSpreadPct : 0.0058; // 0.58% default
+    const appliedRate = route && route.appliedRate ? route.appliedRate : parseFloat((midRate * (1 - spreadPct)).toFixed(2));
+
+    const convertedAmount = Math.max(0, amt - feeAED);
+    const recipientINR = parseFloat((convertedAmount * appliedRate).toFixed(2));
+    const fxCostAED = parseFloat((convertedAmount * ((midRate - appliedRate) / midRate)).toFixed(2));
+    const totalCostAED = parseFloat((feeAED + fxCostAED).toFixed(2));
+    const totalCostPct = amt > 0 ? parseFloat(((totalCostAED / amt) * 100).toFixed(2)) : 0;
+    const fxSpreadPct = parseFloat((((midRate - appliedRate) / midRate) * 100).toFixed(2));
+
     return {
+      fromAmount: amt,
+      fromCurrency,
+      feeAED,
+      convertedAmount,
       midRate,
-      clientRate: parseFloat(clientRate.toFixed(4)),
-      grossINR: Math.round(grossINR),
-      netINR: Math.round(netINR),
-      fxFeeINR: Math.round(fxFeeINR),
-      transferFeeINR: Math.round(transferFeeINR),
-      totalFeeINR: Math.round(totalFeeINR),
-      isMock: true,
+      appliedRate,
+      fxSpreadPct,
+      fxCostAED,
+      otherFeesAED: 0.00,
+      totalCostAED,
+      totalCostPct,
+      recipientINR,
+      isSimulated: true,
     };
   },
 
+  formatINR(val) {
+    if (val === null || val === undefined || isNaN(val)) return '₹0.00';
+    const num = Number(val);
+    // Indian number formatting: e.g. 1,19,612.24
+    const parts = num.toFixed(2).split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1];
+
+    const lastThree = integerPart.substring(integerPart.length - 3);
+    const otherNumbers = integerPart.substring(0, integerPart.length - 3);
+    if (otherNumbers !== '') {
+      integerPart = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + lastThree;
+    }
+    return `₹${integerPart}.${decimalPart}`;
+  },
+
+  formatAED(val) {
+    if (val === null || val === undefined || isNaN(val)) return 'AED 0.00';
+    const num = Number(val);
+    return `AED ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  },
+
   getSupportedCurrencies() {
-    return ['AED', 'USD', 'GBP', 'SGD', 'EUR'];
+    return [
+      { code: 'AED', name: 'AED — UAE dirham' },
+      { code: 'USD', name: 'USD — US dollar' },
+      { code: 'GBP', name: 'GBP — British pound' },
+      { code: 'SGD', name: 'SGD — Singapore dollar' },
+    ];
   },
 
   getSupportedCountries() {
     return [
-      { code: 'AE', name: 'United Arab Emirates', currency: 'AED', flag: '🇦🇪' },
-      { code: 'US', name: 'United States', currency: 'USD', flag: '🇺🇸' },
-      { code: 'GB', name: 'United Kingdom', currency: 'GBP', flag: '🇬🇧' },
-      { code: 'SG', name: 'Singapore', currency: 'SGD', flag: '🇸🇬' },
-      { code: 'EU', name: 'Euro Zone', currency: 'EUR', flag: '🇪🇺' },
+      { code: 'AE', name: 'United Arab Emirates', currency: 'AED' },
+      { code: 'US', name: 'United States', currency: 'USD' },
+      { code: 'GB', name: 'United Kingdom', currency: 'GBP' },
+      { code: 'SG', name: 'Singapore', currency: 'SGD' },
     ];
   },
 };
+

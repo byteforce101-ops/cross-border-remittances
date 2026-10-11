@@ -1,35 +1,34 @@
-import clsx from 'clsx';
 import { TRANSACTION_STATUS } from '@shared/constants/transactionStatus.js';
 
-const CONFIG = {
-  [TRANSACTION_STATUS.COMPLETED]:           { cls: 'badge-success', label: 'Completed' },
-  [TRANSACTION_STATUS.PROCESSING]:          { cls: 'badge-info',    label: 'Processing' },
-  [TRANSACTION_STATUS.PENDING]:             { cls: 'badge-neutral', label: 'Pending' },
-  [TRANSACTION_STATUS.RISK_FLAGGED]:        { cls: 'badge-danger',  label: 'Risk Flagged' },
-  [TRANSACTION_STATUS.COMPLIANCE_REVIEW]:   { cls: 'badge-warning', label: 'Under Review' },
-  [TRANSACTION_STATUS.COMPLIANCE_REJECTED]: { cls: 'badge-danger',  label: 'Rejected' },
-  [TRANSACTION_STATUS.FAILED]:              { cls: 'badge-danger',  label: 'Failed' },
-  [TRANSACTION_STATUS.ROUTE_SELECTED]:      { cls: 'badge-info',    label: 'Route Selected' },
-  [TRANSACTION_STATUS.SETTLEMENT_PENDING]:  { cls: 'badge-warning', label: 'Settling' },
-  [TRANSACTION_STATUS.REFUNDED]:            { cls: 'badge-neutral', label: 'Refunded' },
-  [TRANSACTION_STATUS.CANCELLED]:           { cls: 'badge-neutral', label: 'Cancelled' },
-};
-
-export function StatusBadge({ status }) {
-  const cfg = CONFIG[status] || { cls: 'badge-neutral', label: status };
-  return <span className={cfg.cls}>{cfg.label}</span>;
-}
-
-export function RiskBadge({ level }) {
-  const cls = level === 'LOW' ? 'badge-success' : level === 'MEDIUM' ? 'badge-warning' : 'badge-danger';
-  return <span className={cls}>{level}</span>;
+export function StatusBadge({ status, customLabel }) {
+  if (status === TRANSACTION_STATUS.COMPLETED) {
+    return <span className="chip bg-oksoft text-ok">✓ {customLabel || 'Completed (simulated)'}</span>;
+  }
+  if (status === TRANSACTION_STATUS.COMPLIANCE_REVIEW || status === 'IN_REVIEW') {
+    return <span className="chip bg-infosoft text-info">◆ {customLabel || 'In review'}</span>;
+  }
+  if (status === TRANSACTION_STATUS.SETTLEMENT_PENDING || status === 'DELAYED') {
+    return <span className="chip bg-warnsoft text-warn">▲ {customLabel || 'Delayed'}</span>;
+  }
+  if (status === TRANSACTION_STATUS.PROCESSING || status === TRANSACTION_STATUS.ROUTE_SELECTED) {
+    return <span className="chip bg-warnsoft text-warn">◔ {customLabel || 'Processing'}</span>;
+  }
+  if (status === TRANSACTION_STATUS.FAILED || status === TRANSACTION_STATUS.COMPLIANCE_REJECTED) {
+    return <span className="chip bg-badsoft text-bad">✕ {customLabel || 'Failed · refund simulated'}</span>;
+  }
+  return <span className="chip bg-canvas text-ink border border-rule">{customLabel || status}</span>;
 }
 
 export function RouteBadge({ route }) {
-  const labels = { npci: 'UPI', swift: 'SWIFT', blockchain: 'Blockchain', bank: 'Bank' };
-  return (
-    <span className="badge bg-brand-500/15 text-brand-400 border border-brand-500/25">
-      {labels[route] || route}
-    </span>
-  );
+  const labels = {
+    upi_partner: 'UPI-linked',
+    npci: 'UPI-linked',
+    imps_bank: 'IMPS',
+    swift: 'IMPS',
+    blockchain_partner: 'Blockchain-settled',
+    blockchain: 'Blockchain-settled',
+    bank: 'Bank Transfer',
+  };
+  return <span className="text-sm font-medium text-ink">{labels[route] || route}</span>;
 }
+

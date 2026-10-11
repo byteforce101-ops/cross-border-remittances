@@ -1,106 +1,55 @@
 import { NavLink } from 'react-router-dom';
-import { useStore } from '../../store/useStore.js';
-import {
-  LayoutDashboard, Send, List, Users, GitBranch, ShieldCheck,
-  Layers, Settings, BarChart3, Activity, ChevronLeft, ChevronRight,
-  Zap,
-} from 'lucide-react';
-import clsx from 'clsx';
 
 const NAV_ITEMS = [
-  { to: '/',             icon: LayoutDashboard, label: 'Overview' },
-  { to: '/send',         icon: Send,            label: 'Send Money',  highlight: true },
-  { to: '/transactions', icon: List,            label: 'Transactions' },
-  { to: '/recipients',   icon: Users,           label: 'Recipients' },
-  { to: '/routes',       icon: GitBranch,       label: 'Routes' },
-  { to: '/risk',         icon: ShieldCheck,     label: 'Risk & Compliance' },
-  { to: '/settlement',   icon: Layers,          label: 'Settlement' },
-  { to: '/operations',   icon: Activity,        label: 'Operations' },
-  { to: '/analytics',    icon: BarChart3,       label: 'Analytics' },
-  { to: '/settings',     icon: Settings,        label: 'Settings' },
+  { to: '/',             label: 'Overview' },
+  { to: '/send',         label: 'Send money' },
+  { to: '/transactions', label: 'Transactions' },
+  { to: '/recipients',   label: 'Recipients' },
+  { to: '/routes',       label: 'Payment routes' },
+  { to: '/operations',   label: 'Operations' },
+  { to: '/settlement',   label: 'Settlement' },
+  { to: '/risk',         label: 'Risk & compliance' },
+  { to: '/analytics',    label: 'Analytics' },
+  { to: '/settings',     label: 'Settings' },
 ];
 
 export default function Sidebar() {
-  const collapsed = useStore(s => s.sidebarCollapsed);
-  const toggle = useStore(s => s.setSidebarCollapsed);
-
   return (
-    <aside className={clsx(
-      'flex flex-col h-screen bg-white border-r border-surface-700 transition-all duration-300 z-30 shadow-sm',
-      collapsed ? 'w-16' : 'w-60'
-    )}>
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-4 border-b border-surface-700">
-        <div className="flex-shrink-0 w-8 h-8 bg-brand-gradient rounded-lg flex items-center justify-center shadow-glow-brand">
-          <Zap size={16} className="text-white" />
-        </div>
-        {!collapsed && (
-          <div className="overflow-hidden">
-            <div className="font-bold text-sm text-gray-100 leading-tight">RemittanceOS</div>
-            <div className="text-[10px] text-brand-600 font-mono font-bold tracking-widest uppercase">Orchestration Platform</div>
-          </div>
-        )}
+    <aside className="hidden lg:block border-r border-rule p-4 bg-canvas min-h-screen">
+      {/* Brand Logo */}
+      <div className="font-serif text-2xl font-semibold mb-6 tracking-tight text-ink">
+        Remit<span className="text-acc font-bold">Ledger</span>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 overflow-y-auto">
-        {!collapsed && (
-          <div className="px-4 mb-2">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Navigation</span>
-          </div>
-        )}
-        <ul className="space-y-1 px-2">
-          {NAV_ITEMS.map(({ to, icon: Icon, label, highlight }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={to === '/'}
-                className={({ isActive }) => clsx(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group relative text-sm',
-                  isActive
-                    ? 'bg-brand-50 text-brand-600 font-semibold border border-brand-200/80 shadow-xs'
-                    : highlight
-                      ? 'text-brand-600 bg-brand-50/40 hover:bg-brand-50 font-medium'
-                      : 'text-gray-300 hover:bg-surface-750 hover:text-gray-100 font-medium'
-                )}
-              >
-                {({ isActive }) => (
-                  <>
-                    {isActive && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-brand-500 rounded-r-full" />}
-                    <Icon
-                      size={16}
-                      className={clsx(
-                        'flex-shrink-0',
-                        isActive ? 'text-brand-600' : highlight ? 'text-brand-500' : 'text-gray-400 group-hover:text-gray-100'
-                      )}
-                    />
-                    {!collapsed && (
-                      <span className="truncate">
-                        {label}
-                      </span>
-                    )}
-                    {collapsed && (
-                      <div className="absolute left-full ml-2 px-2.5 py-1 bg-slate-900 text-white text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
-                        {label}
-                      </div>
-                    )}
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+      <nav className="nav space-y-1" aria-label="Primary">
+        {NAV_ITEMS.map(({ to, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === '/'}
+            className={({ isActive }) =>
+              `block px-3 py-2.5 rounded text-sm transition-colors ${
+                isActive
+                  ? 'bg-white border border-rule font-semibold text-ink shadow-xs'
+                  : 'text-mute hover:text-ink hover:bg-white/60 font-medium'
+              }`
+            }
+          >
+            {label}
+          </NavLink>
+        ))}
       </nav>
 
-      {/* Bottom — collapse toggle */}
-      <div className="p-3 border-t border-surface-700">
-        <button
-          onClick={() => toggle(!collapsed)}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-100 hover:bg-surface-750 rounded-lg transition-all text-sm font-medium"
-        >
-          {collapsed ? <ChevronRight size={16} /> : <><ChevronLeft size={16} /><span className="text-xs">Collapse</span></>}
-        </button>
+      <div className="mt-8 pt-4 border-t border-rule">
+        <p className="text-[11px] text-mute leading-relaxed">
+          Corridor: <strong>UAE → India</strong>
+        </p>
+        <div className="mt-2">
+          <span className="demo">SIMULATED RAILS</span>
+        </div>
       </div>
     </aside>
   );
 }
+

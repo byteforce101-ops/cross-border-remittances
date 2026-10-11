@@ -1,44 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
-import { Send, ArrowUpRight, CheckCircle2, AlertTriangle, TrendingUp, Zap, Globe } from 'lucide-react';
 import { useStore } from '../store/useStore.js';
-import { KPICard } from '../components/common/KPICard.jsx';
-import { StatusBadge, RouteBadge } from '../components/common/StatusBadge.jsx';
-import { VOLUME_CHART_DATA } from '../services/mockData.js';
-
-const ROUTE_DIST = [
-  { name: 'UPI / NPCI', value: 62, color: '#4f46e5' },
-  { name: 'Bank Transfer', value: 18, color: '#10b981' },
-  { name: 'SWIFT', value: 12, color: '#f59e0b' },
-  { name: 'Blockchain', value: 8, color: '#8b5cf6' },
-];
-
-const STATUS_DATA = [
-  { name: 'Completed', value: 10842, fill: '#10b981' },
-  { name: 'Processing', value: 342, fill: '#6366f1' },
-  { name: 'Under Review', value: 184, fill: '#f59e0b' },
-  { name: 'Failed', value: 118, fill: '#ef4444' },
-];
-
-const CORRIDOR_DATA = [
-  { corridor: 'UAE→IN', txCount: 4820, volume: 38.2 },
-  { corridor: 'USA→IN', txCount: 3940, volume: 31.5 },
-  { corridor: 'UK→IN',  txCount: 2180, volume: 17.4 },
-  { corridor: 'SG→IN',  txCount: 1546, volume: 12.9 },
-];
-
-const CUSTOM_TOOLTIP_STYLE = {
-  backgroundColor: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '8px',
-  padding: '10px 14px',
-  fontSize: '12px',
-  color: '#0f172a',
-  boxShadow: '0 4px 12px rgba(15,23,42,0.08)',
-};
+import { ATTENTION_ITEMS, HEADLINE_METRICS, ROUTE_DISTRIBUTION } from '../services/mockData.js';
+import { StatusBadge } from '../components/common/StatusBadge.jsx';
+import { fxService } from '../services/fxService.js';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -46,180 +10,184 @@ export default function Dashboard() {
   const recent = transactions.slice(0, 5);
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Demo banner */}
-      <div className="flex items-center gap-3 px-4 py-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs font-medium">
-        <AlertTriangle size={14} className="text-amber-600 flex-shrink-0" />
-        <span>
-          <strong>DEMO / SANDBOX MODE</strong> — All data is simulated for demonstration.
-          Payment infrastructure is running with mock adapters.
-        </span>
-      </div>
-
-      {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <KPICard label="Total Transfers"  value="12,486"  delta="+8.2%" deltaPositive icon={TrendingUp} iconColor="bg-brand-50 text-brand-600" highlight />
-        <KPICard label="Total Volume"     value="₹8.42 Cr" delta="+12.4%" deltaPositive icon={Globe} iconColor="bg-emerald-50 text-emerald-600" />
-        <KPICard label="Avg Settlement"   value="42 sec"   subvalue="last 24h" icon={Zap} iconColor="bg-purple-50 text-purple-600" />
-        <KPICard label="Success Rate"     value="98.7%"    delta="+0.3%" deltaPositive icon={CheckCircle2} iconColor="bg-emerald-50 text-emerald-600" />
-        <KPICard label="Risk Alerts"      value="24"       subvalue="open" icon={AlertTriangle} iconColor="bg-red-50 text-red-600" />
-        <KPICard label="Avg Transfer Cost" value="₹186"   delta="-4.1%" deltaPositive icon={TrendingUp} iconColor="bg-brand-50 text-brand-600" />
-      </div>
-
-      {/* Charts row 1 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Volume over time */}
-        <div className="card p-5 lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="section-title">Transaction Volume</h2>
-              <p className="section-subtitle">Daily transfer volume — last 8 days</p>
-            </div>
-            <span className="badge-demo">MOCK DATA</span>
-          </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={VOLUME_CHART_DATA}>
-              <defs>
-                <linearGradient id="volGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={CUSTOM_TOOLTIP_STYLE} formatter={(v) => [v, 'Transactions']} />
-              <Area type="monotone" dataKey="txCount" stroke="#4f46e5" strokeWidth={2} fill="url(#volGrad)" />
-            </AreaChart>
-          </ResponsiveContainer>
+    <div className="space-y-8 animate-fade-in">
+      {/* Top Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="font-serif text-[28px] text-ink font-semibold">Overview</h1>
+          <p className="text-mute text-sm mt-0.5">
+            Corridor: UAE → India · Last 14 days · <span className="demo">DEMO DATA</span>
+          </p>
         </div>
+        <button className="btn btn-p" onClick={() => navigate('/send')}>
+          Send money
+        </button>
+      </div>
+
+      {/* 1. Needs attention */}
+      <section aria-labelledby="needs-attention-heading">
+        <h2 id="needs-attention-heading" className="text-base font-semibold text-ink mb-2">
+          Needs attention <span className="text-mute font-normal">· {ATTENTION_ITEMS.length} items</span>
+        </h2>
+        <ul className="bg-white border border-rule rounded divide-y divide-rule">
+          {ATTENTION_ITEMS.map((item) => (
+            <li key={item.id} className="p-4 flex flex-wrap items-center gap-3">
+              <span className={`chip ${item.badgeType === 'warn' ? 'bg-warnsoft text-warn' : 'bg-infosoft text-info'}`}>
+                {item.badgeText}
+              </span>
+              <span className="font-mono text-sm font-medium text-ink">{item.reference}</span>
+              <span className="flex-1 min-w-[200px] text-sm text-ink">{item.message}</span>
+              <button
+                onClick={() => navigate(item.actionLink)}
+                className="text-acc font-medium text-sm underline hover:text-[#0A544D]"
+              >
+                {item.actionText}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* 2. Headline metrics */}
+      <section aria-labelledby="headline-metrics-heading">
+        <h2 id="headline-metrics-heading" className="text-base font-semibold text-ink mb-2">
+          Are transfers progressing normally?
+        </h2>
+        <dl className="grid sm:grid-cols-3 gap-4">
+          {HEADLINE_METRICS.map((metric, idx) => (
+            <div key={idx} className="bg-white border border-dashed border-warn/60 rounded p-4">
+              <dt className="text-sm text-mute">{metric.label}</dt>
+              <dd className="font-serif text-[28px] text-ink font-semibold num my-1">{metric.value}</dd>
+              <dd className={`text-sm ${metric.deltaClass}`}>{metric.delta}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* 3. Charts Grid */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Daily transfers trend */}
+        <section className="bg-white border border-rule rounded p-4" aria-labelledby="vt">
+          <h2 id="vt" className="text-base font-semibold text-ink">Daily transfers</h2>
+          <p className="text-sm text-mute mb-3">
+            Today is within the normal range (dashed band). <span className="demo">DEMO</span>
+          </p>
+          <div className="w-full">
+            <svg
+              viewBox="0 0 420 140"
+              className="w-full h-auto"
+              role="img"
+              aria-label="Daily transfers for 14 days: 62, 70, 66, 74, 71, 58, 55, 69, 73, 77, 72, 68, 75, 71. Today 71."
+            >
+              {/* Normal range band 55-80 */}
+              <rect x="0" y="30" width="420" height="50" fill="#E3F0EE" opacity=".6" />
+              <line x1="0" y1="30" x2="420" y2="30" stroke="#0E6B62" strokeDasharray="4 4" />
+              <line x1="0" y1="80" x2="420" y2="80" stroke="#0E6B62" strokeDasharray="4 4" />
+              
+              <g fill="#16233B" opacity=".8">
+                <rect x="6" y="63" width="22" height="67" />
+                <rect x="36" y="54" width="22" height="76" />
+                <rect x="66" y="59" width="22" height="71" />
+                <rect x="96" y="50" width="22" height="80" />
+                <rect x="126" y="53" width="22" height="77" />
+                <rect x="156" y="67" width="22" height="63" />
+                <rect x="186" y="71" width="22" height="59" />
+                <rect x="216" y="55" width="22" height="75" />
+                <rect x="246" y="51" width="22" height="79" />
+                <rect x="276" y="46" width="22" height="84" />
+                <rect x="306" y="52" width="22" height="78" />
+                <rect x="336" y="57" width="22" height="73" />
+                <rect x="366" y="49" width="22" height="81" />
+              </g>
+              
+              {/* Today's bar */}
+              <rect x="396" y="53" width="22" height="77" fill="#0E6B62" />
+              <text x="396" y="46" fontSize="11" fill="#0E6B62" fontWeight="600">71</text>
+              <text x="0" y="12" fontSize="11" fill="#5B6577">Typical range 55–80</text>
+              <text x="6" y="138" fontSize="10" fill="#5B6577">26 Sep</text>
+              <text x="380" y="138" fontSize="10" fill="#5B6577">Today</text>
+            </svg>
+          </div>
+        </section>
 
         {/* Route distribution */}
-        <div className="card p-5">
-          <div className="mb-4">
-            <h2 className="section-title">Settlement Routes</h2>
-            <p className="section-subtitle">Distribution by rail</p>
-          </div>
-          <ResponsiveContainer width="100%" height={160}>
-            <PieChart>
-              <Pie data={ROUTE_DIST} cx="50%" cy="50%" innerRadius={50} outerRadius={75} dataKey="value" paddingAngle={3}>
-                {ROUTE_DIST.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} strokeWidth={0} />
-                ))}
-              </Pie>
-              <Tooltip contentStyle={CUSTOM_TOOLTIP_STYLE} formatter={(v) => [`${v}%`, '']} />
-            </PieChart>
-          </ResponsiveContainer>
-          <ul className="space-y-1.5 mt-2">
-            {ROUTE_DIST.map(d => (
-              <li key={d.name} className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: d.color }} />
-                  <span className="text-gray-400 font-medium">{d.name}</span>
-                </span>
-                <span className="text-gray-100 font-semibold">{d.value}%</span>
+        <section className="bg-white border border-rule rounded p-4" aria-labelledby="rd">
+          <h2 id="rd" className="text-base font-semibold text-ink">Where transfers are routed</h2>
+          <p className="text-sm text-mute mb-3">
+            Share of transfers and success by route. <span className="demo">DEMO</span>
+          </p>
+          <ul className="space-y-4 text-sm mt-4">
+            {ROUTE_DISTRIBUTION.map((item) => (
+              <li key={item.name}>
+                <div className="flex justify-between font-medium">
+                  <span className="text-ink">{item.name}</span>
+                  <span className="num text-mute">{item.share}% · {item.successRate}% success</span>
+                </div>
+                <div className="h-2 bg-rule rounded mt-1.5 overflow-hidden">
+                  <div
+                    className={`h-2 ${item.barColor} rounded transition-all duration-500`}
+                    style={{ width: `${item.share}%` }}
+                  />
+                </div>
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       </div>
 
-      {/* Charts row 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Corridor activity */}
-        <div className="card p-5">
-          <div className="mb-4">
-            <h2 className="section-title">Corridor Activity</h2>
-            <p className="section-subtitle">Volume share by remittance corridor</p>
-          </div>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={CORRIDOR_DATA} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-              <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis dataKey="corridor" type="category" tick={{ fill: '#475569', fontSize: 12 }} axisLine={false} tickLine={false} width={56} />
-              <Tooltip contentStyle={CUSTOM_TOOLTIP_STYLE} formatter={(v) => [`${v}%`, 'Volume share']} />
-              <Bar dataKey="volume" fill="#4f46e5" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+      {/* 4. Recent transactions */}
+      <section aria-labelledby="recent-tx-heading">
+        <div className="flex items-center justify-between mb-2">
+          <h2 id="recent-tx-heading" className="text-base font-semibold text-ink">
+            Recent transactions <span className="demo ml-1">DEMO</span>
+          </h2>
+          <button
+            onClick={() => navigate('/transactions')}
+            className="text-acc text-sm font-medium hover:underline"
+          >
+            View all transactions →
+          </button>
         </div>
-
-        {/* Transaction status */}
-        <div className="card p-5">
-          <div className="mb-4">
-            <h2 className="section-title">Transaction Status</h2>
-            <p className="section-subtitle">All-time breakdown</p>
-          </div>
-          <div className="space-y-3">
-            {STATUS_DATA.map(s => (
-              <div key={s.name} className="flex items-center gap-3">
-                <span className="text-xs text-gray-400 font-medium w-24">{s.name}</span>
-                <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all"
-                    style={{ width: `${(s.value / 11486) * 100}%`, background: s.fill }}
-                  />
-                </div>
-                <span className="text-xs text-gray-100 font-mono font-semibold w-14 text-right">{s.value.toLocaleString()}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recent transactions */}
-      <div className="card overflow-hidden">
-        <div className="flex items-center justify-between p-5 border-b border-surface-700 bg-white">
-          <div>
-            <h2 className="section-title">Recent Transactions</h2>
-            <p className="section-subtitle">Latest remittance activity</p>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => navigate('/send')} className="btn-primary text-xs py-2">
-              <Send size={13} /> Send Money
-            </button>
-            <button onClick={() => navigate('/transactions')} className="btn-secondary text-xs py-2">
-              View All <ArrowUpRight size={13} />
-            </button>
-          </div>
-        </div>
-        <div className="table-wrapper rounded-none border-0">
-          <table className="table">
-            <thead>
+        <div className="bg-white border border-rule rounded overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="hidden sm:table-header-group text-left text-mute bg-canvas border-b border-rule">
               <tr>
-                <th>ID</th>
-                <th>Sender</th>
-                <th>Recipient</th>
-                <th>Corridor</th>
-                <th>Amount</th>
-                <th>Route</th>
-                <th>Risk</th>
-                <th>Status</th>
+                <th className="p-3 font-medium">Reference</th>
+                <th className="p-3 font-medium">Sent</th>
+                <th className="p-3 font-medium">Recipient gets</th>
+                <th className="p-3 font-medium">Route</th>
+                <th className="p-3 font-medium">Status</th>
               </tr>
             </thead>
-            <tbody>
-              {recent.map(tx => (
-                <tr key={tx.id} onClick={() => navigate(`/transactions/${tx.id}`)}>
-                  <td className="font-mono text-xs font-semibold text-brand-600">{tx.id}</td>
-                  <td className="text-gray-100 font-medium">{tx.senderName}</td>
-                  <td className="text-gray-300">{tx.recipientName}</td>
-                  <td className="text-gray-400 text-xs font-medium">{tx.senderCountry} → IN</td>
-                  <td>
-                    <div className="text-gray-100 font-semibold">{tx.fromAmount.toLocaleString()} {tx.fromCurrency}</div>
-                    <div className="text-xs text-gray-400 font-medium">₹{tx.toAmount.toLocaleString()}</div>
+            <tbody className="divide-y divide-rule">
+              {recent.map((tx) => (
+                <tr
+                  key={tx.id}
+                  onClick={() => navigate(`/transactions/${tx.id}`)}
+                  className="block sm:table-row p-3 sm:p-0 hover:bg-canvas/50 transition-colors cursor-pointer"
+                >
+                  <td className="sm:p-3 font-mono font-medium block sm:table-cell text-ink">
+                    {tx.id}
                   </td>
-                  <td><RouteBadge route={tx.route} /></td>
-                  <td>
-                    <span className={tx.riskLevel === 'LOW' ? 'text-emerald-700 text-xs font-bold' : tx.riskLevel === 'MEDIUM' ? 'text-amber-700 text-xs font-bold' : 'text-red-700 text-xs font-bold'}>
-                      {tx.riskScore} — {tx.riskLevel}
-                    </span>
+                  <td className="sm:p-3 num font-medium block sm:table-cell text-ink">
+                    {fxService.formatAED(tx.fromAmount)}
                   </td>
-                  <td><StatusBadge status={tx.status} /></td>
+                  <td className="sm:p-3 num font-medium block sm:table-cell text-ink">
+                    {fxService.formatINR(tx.toAmount)}
+                  </td>
+                  <td className="sm:p-3 block sm:table-cell text-mute">
+                    {tx.routeShort || (tx.route === 'upi_partner' ? 'UPI-linked' : tx.route === 'imps_bank' ? 'IMPS' : 'Blockchain-settled')}
+                  </td>
+                  <td className="sm:p-3 block sm:table-cell">
+                    <StatusBadge status={tx.status} customLabel={tx.statusLabel} />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
+

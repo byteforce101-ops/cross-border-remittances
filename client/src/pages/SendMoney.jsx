@@ -1,553 +1,690 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ChevronRight, ChevronLeft, User, DollarSign, Users, FileText, GitBranch, ShieldCheck, Eye, Send, AlertTriangle, Zap, Globe, Link, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useStore } from '../store/useStore.js';
 import { fxService } from '../services/fxService.js';
 import { routeService } from '../services/routeService.js';
-import { riskService } from '../services/riskService.js';
 import { transactionService } from '../services/transactionService.js';
-import { useStore } from '../store/useStore.js';
-import clsx from 'clsx';
 
-const STEPS = [
-  { id: 1, label: 'Sender',    icon: User },
-  { id: 2, label: 'Amount',    icon: DollarSign },
-  { id: 3, label: 'Recipient', icon: Users },
-  { id: 4, label: 'Purpose',   icon: FileText },
-  { id: 5, label: 'Routes',    icon: GitBranch },
-  { id: 6, label: 'Risk',      icon: ShieldCheck },
-  { id: 7, label: 'Review',    icon: Eye },
+const STEP_LABELS = ['Details', 'Cost', 'Routes', 'Review', 'Track'];
+const CTA_LABELS = [
+  'Continue',
+  'See routes',
+  'Review transfer',
+  'Create simulated transfer',
+  'Done — back to overview',
 ];
 
-const PURPOSES = ['Family support', 'Education', 'Medical expenses', 'Business', 'Personal', 'Other'];
+const PURPOSES = ['Family support', 'Education', 'Medical expenses', 'Gift'];
 
-function StepIndicator({ currentStep }) {
-  return (
-    <div className="flex items-center gap-0 mb-8">
-      {STEPS.map((step, idx) => (
-        <div key={step.id} className="flex items-center">
-          <div className="flex flex-col items-center gap-1">
-            <div className={clsx(
-              'transition-all duration-300',
-              currentStep === step.id ? 'step-active' :
-              currentStep > step.id  ? 'step-done' : 'step-pending'
-            )}>
-              {currentStep > step.id ? <Check size={14} /> : <span className="text-xs">{step.id}</span>}
-            </div>
-            <span className={clsx('text-[10px] font-semibold hidden sm:block', currentStep === step.id ? 'text-brand-600' : currentStep > step.id ? 'text-emerald-600' : 'text-gray-400')}>
-              {step.label}
-            </span>
-          </div>
-          {idx < STEPS.length - 1 && (
-            <div className={clsx('h-px flex-1 mx-2 mb-4 transition-all', currentStep > step.id ? 'bg-emerald-300' : 'bg-surface-700')} style={{ minWidth: 20 }} />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function NavButtons({ onBack, onNext, nextLabel = 'Continue', nextDisabled = false, loading = false }) {
-  return (
-    <div className="flex justify-between pt-6 border-t border-surface-700 mt-6">
-      {onBack ? (
-        <button onClick={onBack} className="btn-secondary">
-          <ChevronLeft size={16} /> Back
-        </button>
-      ) : <div />}
-      <button onClick={onNext} disabled={nextDisabled || loading} className="btn-primary">
-        {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : null}
-        {nextLabel} <ChevronRight size={16} />
-      </button>
-    </div>
-  );
-}
-
-// ── Step 1: Sender ────────────────────────────────────────────────────────────
-function StepSender({ data, onChange, onNext }) {
-  const countries = fxService.getSupportedCountries();
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const e = {};
-    if (!data.name?.trim()) e.name = 'Required';
-    if (!data.email?.trim()) e.email = 'Required';
-    if (!data.country) e.country = 'Required';
-    setErrors(e);
-    return !Object.keys(e).length;
-  };
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Sender Details</h2>
-        <p className="text-sm text-gray-400">Enter the details of the person sending money.</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="label">Sending From *</label>
-          <select className={clsx('select', errors.country && 'border-red-400')}
-            value={data.country || ''} onChange={e => {
-              const c = countries.find(x => x.code === e.target.value);
-              onChange({ country: e.target.value, countryCode: e.target.value, countryName: c?.name, currency: c?.currency, flag: c?.flag });
-            }}>
-            <option value="">Select country</option>
-            {countries.map(c => <option key={c.code} value={c.code}>{c.flag} {c.name}</option>)}
-          </select>
-          {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
-        </div>
-        <div>
-          <label className="label">Full Name *</label>
-          <input className={clsx('input', errors.name && 'border-red-400')} placeholder="e.g. Arjun Patel"
-            value={data.name || ''} onChange={e => onChange({ name: e.target.value })} />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-        </div>
-        <div>
-          <label className="label">Email Address *</label>
-          <input className={clsx('input', errors.email && 'border-red-400')} type="email" placeholder="sender@email.com"
-            value={data.email || ''} onChange={e => onChange({ email: e.target.value })} />
-          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-        </div>
-        <div>
-          <label className="label">Phone Number</label>
-          <input className="input" placeholder="+971 50 123 4567"
-            value={data.phone || ''} onChange={e => onChange({ phone: e.target.value })} />
-        </div>
-      </div>
-      <NavButtons onNext={() => validate() && onNext()} nextLabel="Continue" />
-    </div>
-  );
-}
-
-// ── Step 2: Amount ────────────────────────────────────────────────────────────
-function StepAmount({ data, senderCurrency, onChange, onBack, onNext }) {
-  const [fxCalc, setFxCalc] = useState(null);
-
-  useEffect(() => {
-    if (data.amount && data.currency) {
-      try {
-        const calc = fxService.calculate(parseFloat(data.amount), data.currency);
-        setFxCalc(calc);
-        onChange({ fxCalc: calc });
-      } catch {}
-    }
-  }, [data.amount, data.currency]);
-
-  const canContinue = data.amount > 0 && data.currency;
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Transfer Amount</h2>
-        <p className="text-sm text-gray-400">Enter the amount you want to send. The recipient will receive Indian Rupees (INR).</p>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="label">Currency</label>
-          <select className="select" value={data.currency || senderCurrency || 'AED'}
-            onChange={e => onChange({ currency: e.target.value })}>
-            {fxService.getSupportedCurrencies().map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-        </div>
-        <div>
-          <label className="label">Amount to Send *</label>
-          <input className="input text-lg font-semibold" type="number" placeholder="0.00" min="1"
-            value={data.amount || ''} onChange={e => onChange({ amount: e.target.value })} />
-        </div>
-      </div>
-
-      {/* FX breakdown */}
-      {fxCalc && parseFloat(data.amount) > 0 && (
-        <div className="card p-5 border-brand-200 bg-brand-50/30 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-gray-100">Exchange Calculation</span>
-            <span className="badge-demo">DEMO RATES</span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            {[
-              ['Exchange Rate', `1 ${data.currency} = ₹${fxCalc.clientRate}`],
-              ['FX Spread', `₹${fxCalc.fxFeeINR.toLocaleString()}`],
-              ['Transfer Fee', `₹${fxCalc.transferFeeINR.toLocaleString()}`],
-              ['Total Cost', `₹${fxCalc.totalFeeINR.toLocaleString()}`],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between">
-                <span className="text-gray-400 font-medium">{k}</span>
-                <span className="text-gray-100 font-semibold">{v}</span>
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-brand-200/60 pt-3 flex justify-between items-center">
-            <span className="text-sm text-gray-400 font-medium">Recipient Gets</span>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-emerald-600">₹{fxCalc.netINR.toLocaleString()}</div>
-              <div className="text-xs text-gray-400">Estimated — rates may vary</div>
-            </div>
-          </div>
-        </div>
-      )}
-      <NavButtons onBack={onBack} onNext={onNext} nextDisabled={!canContinue} />
-    </div>
-  );
-}
-
-// ── Step 3: Recipient ─────────────────────────────────────────────────────────
-function StepRecipient({ data, onChange, onBack, onNext }) {
-  const [errors, setErrors] = useState({});
-  const validate = () => {
-    const e = {};
-    if (!data.name?.trim()) e.name = 'Required';
-    if (!data.upiId?.trim()) e.upiId = 'Required';
-    setErrors(e);
-    return !Object.keys(e).length;
-  };
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Recipient Details</h2>
-        <p className="text-sm text-gray-400">Who will receive the funds in India?</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="label">Recipient Name *</label>
-          <input className={clsx('input', errors.name && 'border-red-400')} placeholder="e.g. Priya Sharma"
-            value={data.name || ''} onChange={e => onChange({ name: e.target.value })} />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-        </div>
-        <div>
-          <label className="label">Recipient Country</label>
-          <input className="input bg-slate-50 font-medium text-gray-200" value="🇮🇳 India" disabled />
-        </div>
-        <div>
-          <label className="label">UPI ID *</label>
-          <input className={clsx('input', errors.upiId && 'border-red-400')} placeholder="name@okicici"
-            value={data.upiId || ''} onChange={e => onChange({ upiId: e.target.value })} />
-          {errors.upiId && <p className="text-red-500 text-xs mt-1">{errors.upiId}</p>}
-          <p className="text-xs text-gray-400 mt-1">UPI ID enables instant settlement via NPCI/UPI infrastructure</p>
-        </div>
-        <div>
-          <label className="label">Bank Name</label>
-          <input className="input" placeholder="e.g. ICICI Bank (optional)"
-            value={data.bankName || ''} onChange={e => onChange({ bankName: e.target.value })} />
-        </div>
-      </div>
-      <NavButtons onBack={onBack} onNext={() => validate() && onNext()} />
-    </div>
-  );
-}
-
-// ── Step 4: Purpose ───────────────────────────────────────────────────────────
-function StepPurpose({ data, onChange, onBack, onNext }) {
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Purpose of Transfer</h2>
-        <p className="text-sm text-gray-400">Required for regulatory compliance. Select the most appropriate option.</p>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {PURPOSES.map(p => (
-          <button key={p} onClick={() => onChange({ purpose: p })}
-            className={clsx(
-              'p-4 rounded-xl border text-sm font-semibold text-left transition-all',
-              data.purpose === p
-                ? 'bg-brand-50 border-brand-400 text-brand-700 shadow-sm'
-                : 'bg-white border-surface-700 text-gray-300 hover:border-brand-300 hover:bg-slate-50'
-            )}>
-            {p}
-          </button>
-        ))}
-      </div>
-      {data.purpose && (
-        <div className="flex items-center gap-2 text-sm text-emerald-700 font-semibold bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
-          <Check size={16} /> Selected Purpose: <strong>{data.purpose}</strong>
-        </div>
-      )}
-      <NavButtons onBack={onBack} onNext={onNext} nextDisabled={!data.purpose} />
-    </div>
-  );
-}
-
-// ── Step 5: Route Comparison ──────────────────────────────────────────────────
-function StepRoutes({ amountDetails, selectedRoute, onSelectRoute, onBack, onNext }) {
-  const fxCalc = amountDetails.fxCalc;
-  const routes = fxCalc ? routeService.analyzeRoutes(amountDetails.amount, amountDetails.currency, fxCalc) : [];
-  const recommended = fxCalc ? routeService.recommend(routes, 20) : null;
-
-  const fmtTime = (sec) => {
-    if (sec < 120) return `~${sec} sec`;
-    if (sec < 7200) return `~${Math.round(sec/60)} min`;
-    if (sec < 172800) return `~${Math.round(sec/3600)} hrs`;
-    return `${Math.round(sec/86400)} days`;
-  };
-
-  const ROUTE_ICON_MAP = { npci: Zap, blockchain: Link, bank: Building2, swift: Globe };
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Select Settlement Route</h2>
-        <p className="text-sm text-gray-400">Our orchestration engine has analysed available payment rails for this corridor.</p>
-      </div>
-
-      {recommended && (
-        <div className="flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-          <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <div className="text-sm font-bold text-emerald-800">Recommended Route</div>
-            <div className="text-sm text-gray-300 mt-0.5">
-              <strong className="text-emerald-700">{recommended.name}</strong> — Lower total cost and faster settlement
-              while maintaining an optimal risk profile for this corridor.
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-3">
-        {routes.map(route => {
-          const Icon = ROUTE_ICON_MAP[route.id] || Globe;
-          const isRec = recommended?.id === route.id;
-          const isSelected = selectedRoute?.id === route.id;
-          return (
-            <div key={route.id}
-              onClick={() => onSelectRoute(route)}
-              className={clsx(
-                'card p-4 cursor-pointer transition-all duration-150',
-                isSelected ? 'border-brand-500 bg-brand-50/50 shadow-md ring-1 ring-brand-500' : 'hover:border-slate-300 hover:bg-slate-50/50',
-              )}>
-              <div className="flex items-start gap-4">
-                <div className={clsx('w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm', isSelected ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600')}>
-                  <Icon size={18} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-gray-100">{route.name}</span>
-                    {isRec && <span className="badge-success text-[10px]">✓ RECOMMENDED</span>}
-                    {route.badge === 'TESTNET' && <span className="badge-demo">TESTNET</span>}
-                    {route.availability !== 'operational' && route.availability !== 'testnet' && (
-                      <span className="badge-neutral">{route.availability}</span>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-400 mt-0.5">{route.description}</p>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-                    {[
-                      ['Cost', `₹${route.costINR?.toLocaleString() || '—'}`],
-                      ['Speed', fmtTime(route.speedSec)],
-                      ['Reliability', `${route.reliability}%`],
-                      ['Risk', route.riskLevel],
-                    ].map(([k, v]) => (
-                      <div key={k}>
-                        <div className="text-[10px] text-gray-400 uppercase font-semibold tracking-wide">{k}</div>
-                        <div className={clsx('text-sm font-bold mt-0.5',
-                          k === 'Risk' && v === 'LOW' ? 'text-emerald-700' :
-                          k === 'Risk' && v === 'MEDIUM' ? 'text-amber-700' :
-                          k === 'Risk' ? 'text-red-700' : 'text-gray-100'
-                        )}>{v}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className={clsx('w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1', isSelected ? 'border-brand-600 bg-brand-600' : 'border-slate-300')}>
-                  {isSelected && <Check size={11} className="text-white" />}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <NavButtons onBack={onBack} onNext={onNext} nextDisabled={!selectedRoute} nextLabel="Run Risk Check" />
-    </div>
-  );
-}
-
-// ── Step 6: Risk ──────────────────────────────────────────────────────────────
-function StepRisk({ senderDetails, amountDetails, recipientDetails, purposeDetails, riskResult, onRiskResult, onBack, onNext }) {
-  useEffect(() => {
-    if (!riskResult) {
-      const result = riskService.analyze({
-        fromAmount: amountDetails.amount,
-        fromCurrency: amountDetails.currency,
-        recipientUpi: recipientDetails.upiId,
-        purpose: purposeDetails.purpose,
-        corridor: `${senderDetails.countryCode}_INR`,
-      });
-      onRiskResult(result);
-    }
-  }, []);
-
-  if (!riskResult) return <div className="flex items-center justify-center py-16"><div className="w-8 h-8 border-2 border-brand-500/30 border-t-brand-500 rounded-full animate-spin" /></div>;
-
-  const scoreColor = riskResult.score < 30 ? 'text-emerald-700' : riskResult.score < 65 ? 'text-amber-700' : 'text-red-700';
-  const scoreBg = riskResult.score < 30 ? 'bg-emerald-500' : riskResult.score < 65 ? 'bg-amber-500' : 'bg-red-500';
-
-  return (
-    <div className="space-y-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-gray-100 mb-1">Risk Assessment</h2>
-          <p className="text-sm text-gray-400">Demo analysis of transaction risk factors.</p>
-        </div>
-        <span className="badge-demo">DEMO RISK ANALYSIS</span>
-      </div>
-
-      {/* Score */}
-      <div className="card p-6 text-center">
-        <div className={clsx('text-5xl font-bold mono mb-1', scoreColor)}>{riskResult.score}</div>
-        <div className="text-gray-400 text-sm font-medium mb-4">Risk Score / 100 — <strong className={scoreColor}>{riskResult.level} RISK</strong></div>
-        <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
-          <div className={clsx('h-full rounded-full transition-all duration-1000', scoreBg)} style={{ width: `${riskResult.score}%` }} />
-        </div>
-        <div className="flex justify-between text-[10px] text-gray-400 font-semibold mt-1 px-1">
-          <span>LOW</span><span>MEDIUM</span><span>HIGH</span>
-        </div>
-      </div>
-
-      {/* Signals */}
-      <div className="card p-5">
-        <h3 className="text-sm font-bold text-gray-100 mb-3">Risk Factors Analysed</h3>
-        <ul className="space-y-2">
-          {riskResult.signals.map((s, i) => (
-            <li key={i} className={clsx('flex items-start gap-3 text-sm', s.flag ? 'text-amber-900 bg-amber-50 p-2.5 rounded-lg border border-amber-200' : 'text-gray-300')}>
-              <span className={clsx('mt-0.5 text-base leading-none font-bold', s.flag ? 'text-amber-600' : 'text-emerald-600')}>
-                {s.flag ? '⚠' : '✓'}
-              </span>
-              <span className="font-medium">{s.text}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {riskResult.requiresReview && (
-        <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-          <AlertTriangle size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-amber-800">
-            <strong>Manual Review Required</strong> — This transaction will be placed in the compliance review queue before settlement.
-          </div>
-        </div>
-      )}
-
-      <NavButtons onBack={onBack} onNext={onNext} nextLabel="Review & Confirm" />
-    </div>
-  );
-}
-
-// ── Step 7: Review & Confirm ──────────────────────────────────────────────────
-function StepReview({ senderDetails, amountDetails, recipientDetails, purposeDetails, selectedRoute, riskResult, onBack, onConfirm, confirming }) {
-  const fxCalc = amountDetails.fxCalc;
-  const fmtTime = (sec) => sec < 120 ? `~${sec} sec` : sec < 7200 ? `~${Math.round(sec/60)} min` : `${Math.round(sec/86400)} days`;
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold text-gray-100 mb-1">Review & Confirm</h2>
-        <p className="text-sm text-gray-400">Please review all details carefully before confirming this demo transfer.</p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Summary card */}
-        <div className="card p-5 space-y-3">
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide">Transfer Summary</h3>
-          {[
-            ['Sending', `${parseFloat(amountDetails.amount).toLocaleString()} ${amountDetails.currency}`],
-            ['From', `${senderDetails.flag} ${senderDetails.name}, ${senderDetails.countryName}`],
-            ['To', `${recipientDetails.name} (${recipientDetails.upiId})`],
-            ['Recipient gets', fxCalc ? `₹${fxCalc.netINR.toLocaleString()}` : '—'],
-            ['Exchange rate', fxCalc ? `1 ${amountDetails.currency} = ₹${fxCalc.clientRate}` : '—'],
-            ['Total fees', fxCalc ? `₹${fxCalc.totalFeeINR.toLocaleString()}` : '—'],
-          ].map(([k, v]) => (
-            <div key={k} className="flex justify-between text-sm">
-              <span className="text-gray-400 font-medium">{k}</span>
-              <span className="text-gray-100 font-bold text-right max-w-[55%]">{v}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="space-y-4">
-          {/* Route */}
-          <div className="card p-4">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Settlement Route</h3>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-brand-700">{selectedRoute?.name}</span>
-              {selectedRoute?.badge === 'TESTNET' && <span className="badge-demo">TESTNET</span>}
-            </div>
-            <div className="text-xs text-gray-400 font-medium mt-1">Est. settlement: {fmtTime(selectedRoute?.speedSec)}</div>
-          </div>
-          {/* Risk */}
-          <div className="card p-4">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Risk Assessment</h3>
-            <div className={clsx('font-bold', riskResult?.level === 'LOW' ? 'text-emerald-700' : riskResult?.level === 'MEDIUM' ? 'text-amber-700' : 'text-red-700')}>
-              {riskResult?.score} / 100 — {riskResult?.level}
-            </div>
-            {riskResult?.requiresReview && <div className="text-xs text-amber-700 font-semibold mt-1">⚠ Manual review required</div>}
-          </div>
-          {/* Purpose */}
-          <div className="card p-4">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Purpose</h3>
-            <div className="text-gray-100 font-semibold text-sm">{purposeDetails.purpose}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Demo disclaimer */}
-      <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900">
-        <AlertTriangle size={14} className="text-amber-600 flex-shrink-0 mt-0.5" />
-        <span>
-          <strong className="text-amber-800">DEMO TRANSFER</strong> — Clicking confirm will create a simulated transaction in the demo system.
-          No real funds will be moved. Mock payment APIs are in use.
-        </span>
-      </div>
-
-      <NavButtons onBack={onBack} onNext={onConfirm} nextLabel="Confirm Demo Transfer" loading={confirming} />
-    </div>
-  );
-}
-
-// ── Main SendMoney Component ───────────────────────────────────────────────────
 export default function SendMoney() {
   const navigate = useNavigate();
+  const transactions = useStore(s => s.transactions);
+  const recipients = useStore(s => s.recipients);
   const addTransaction = useStore(s => s.addTransaction);
 
   const [step, setStep] = useState(1);
-  const [senderDetails, setSenderDetails] = useState({});
-  const [amountDetails, setAmountDetails] = useState({ currency: 'AED' });
-  const [recipientDetails, setRecipientDetails] = useState({});
-  const [purposeDetails, setPurposeDetails] = useState({});
-  const [selectedRoute, setSelectedRoute] = useState(null);
-  const [riskResult, setRiskResult] = useState(null);
-  const [confirming, setConfirming] = useState(false);
+  const [amount, setAmount] = useState('5000.00');
+  const [currency, setCurrency] = useState('AED');
+  const [selectedRecipientId, setSelectedRecipientId] = useState(recipients[0]?.id || 'rec-001');
+  const [purpose, setPurpose] = useState('Family support');
+  const [selectedRouteId, setSelectedRouteId] = useState('upi_partner');
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [createdTx, setCreatedTx] = useState(null);
 
-  const slideVariants = {
-    enter: { opacity: 0, x: 30 },
-    center: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -30 },
+  // Quote timer state (300 seconds = 5 min)
+  const [quoteSeconds, setQuoteSeconds] = useState(299);
+  const [isQuoteExpired, setIsQuoteExpired] = useState(false);
+
+  useEffect(() => {
+    if (isQuoteExpired || step === 5) return;
+    const interval = setInterval(() => {
+      setQuoteSeconds((prev) => {
+        if (prev <= 1) {
+          setIsQuoteExpired(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isQuoteExpired, step]);
+
+  const handleRefreshQuote = () => {
+    setQuoteSeconds(299);
+    setIsQuoteExpired(false);
   };
 
-  const handleConfirm = async () => {
-    setConfirming(true);
-    await new Promise(r => setTimeout(r, 1200));
-    const tx = transactionService.buildTransaction({
-      senderDetails, amountDetails, recipientDetails, purposeDetails, selectedRoute,
-      fxCalc: amountDetails.fxCalc, risk: riskResult,
+  const timerFormatted = useMemo(() => {
+    const m = Math.floor(quoteSeconds / 60);
+    const s = quoteSeconds % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }, [quoteSeconds]);
+
+  // Selected recipient
+  const selectedRecipient = useMemo(() => {
+    return recipients.find(r => r.id === selectedRecipientId) || recipients[0] || {
+      name: 'Anita Sharma',
+      phoneMask: '•••• 4821',
+      upiId: 'anita.sharma@okaxis',
+      bankName: 'Axis Bank',
+    };
+  }, [recipients, selectedRecipientId]);
+
+  // Amount validation (AED 100 to 10,000)
+  const numericAmount = parseFloat(amount);
+  const amountValidation = useMemo(() => {
+    if (isNaN(numericAmount) || amount.trim() === '') {
+      return { valid: false, message: 'Enter an amount in AED.' };
+    }
+    if (numericAmount < 100) {
+      return { valid: false, message: 'Minimum is AED 100.' };
+    }
+    if (numericAmount > 10000) {
+      return { valid: false, message: 'Maximum is AED 10,000 on this corridor.' };
+    }
+    return { valid: true, message: 'Limits on this corridor (demo): AED 100 – 10,000 per transfer.' };
+  }, [amount, numericAmount]);
+
+  // Analyzed routes for current amount
+  const analyzedRoutes = useMemo(() => {
+    return routeService.analyzeRoutes(amountValidation.valid ? numericAmount : 5000, currency);
+  }, [numericAmount, currency, amountValidation.valid]);
+
+  // Current active route
+  const currentRoute = useMemo(() => {
+    return analyzedRoutes.find(r => r.id === selectedRouteId) || analyzedRoutes[0];
+  }, [analyzedRoutes, selectedRouteId]);
+
+  // Dynamic recommendation rationale
+  const recommendation = useMemo(() => {
+    return routeService.getRecommendation(analyzedRoutes, selectedRecipient.name);
+  }, [analyzedRoutes, selectedRecipient]);
+
+  // Financial calculations for current selected route
+  const fxCalc = useMemo(() => {
+    return fxService.calculate({
+      fromAmount: amountValidation.valid ? numericAmount : 5000,
+      fromCurrency: currency,
+      route: currentRoute,
     });
-    addTransaction(tx);
-    setConfirming(false);
-    navigate(`/transactions/${tx.id}?new=1`);
+  }, [numericAmount, currency, currentRoute, amountValidation.valid]);
+
+  // Step progression validation
+  const canContinue = useMemo(() => {
+    if (step === 1) return amountValidation.valid;
+    if (step === 2) return !isQuoteExpired;
+    if (step === 3) return currentRoute && currentRoute.isAvailable;
+    if (step === 4) return acknowledged && !isQuoteExpired;
+    return true;
+  }, [step, amountValidation.valid, isQuoteExpired, currentRoute, acknowledged]);
+
+  // Handle CTA button click
+  const handleContinue = () => {
+    if (step === 1) {
+      if (!amountValidation.valid) return;
+      setStep(2);
+      window.scrollTo(0, 0);
+    } else if (step === 2) {
+      if (isQuoteExpired) return;
+      setStep(3);
+      window.scrollTo(0, 0);
+    } else if (step === 3) {
+      setStep(4);
+      window.scrollTo(0, 0);
+    } else if (step === 4) {
+      if (!acknowledged || isQuoteExpired) return;
+      // Create new transaction
+      const newTx = transactionService.buildTransaction({
+        existingTransactions: transactions,
+        amount: numericAmount,
+        fromCurrency: currency,
+        recipient: selectedRecipient,
+        purpose,
+        route: currentRoute,
+        calc: fxCalc,
+      });
+      addTransaction(newTx);
+      setCreatedTx(newTx);
+      setStep(5);
+      window.scrollTo(0, 0);
+    } else if (step === 5) {
+      navigate('/');
+    }
+  };
+
+  const handleBack = () => {
+    if (step > 1 && step < 5) {
+      setStep(step - 1);
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
-    <div className="max-w-3xl mx-auto animate-fade-in">
-      <div className="card p-6 sm:p-8 bg-white border border-surface-700 shadow-card">
-        <StepIndicator currentStep={step} />
-        <AnimatePresence mode="wait">
-          <motion.div key={step} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.2 }}>
-            {step === 1 && <StepSender data={senderDetails} onChange={d => setSenderDetails(p => ({ ...p, ...d }))} onNext={() => setStep(2)} />}
-            {step === 2 && <StepAmount data={amountDetails} senderCurrency={senderDetails.currency} onChange={d => setAmountDetails(p => ({ ...p, ...d }))} onBack={() => setStep(1)} onNext={() => setStep(3)} />}
-            {step === 3 && <StepRecipient data={recipientDetails} onChange={d => setRecipientDetails(p => ({ ...p, ...d }))} onBack={() => setStep(2)} onNext={() => setStep(4)} />}
-            {step === 4 && <StepPurpose data={purposeDetails} onChange={d => setPurposeDetails(p => ({ ...p, ...d }))} onBack={() => setStep(3)} onNext={() => setStep(5)} />}
-            {step === 5 && <StepRoutes senderDetails={senderDetails} amountDetails={amountDetails} recipientDetails={recipientDetails} selectedRoute={selectedRoute} onSelectRoute={setSelectedRoute} onBack={() => setStep(4)} onNext={() => setStep(6)} />}
-            {step === 6 && <StepRisk senderDetails={senderDetails} amountDetails={amountDetails} recipientDetails={recipientDetails} purposeDetails={purposeDetails} riskResult={riskResult} onRiskResult={setRiskResult} onBack={() => setStep(5)} onNext={() => setStep(7)} />}
-            {step === 7 && <StepReview senderDetails={senderDetails} amountDetails={amountDetails} recipientDetails={recipientDetails} purposeDetails={purposeDetails} selectedRoute={selectedRoute} riskResult={riskResult} onBack={() => setStep(6)} onConfirm={handleConfirm} confirming={confirming} />}
-          </motion.div>
-        </AnimatePresence>
+    <div className="space-y-6 animate-fade-in">
+      {/* Title */}
+      <div>
+        <h1 className="font-serif text-[28px] text-ink font-semibold">Send money to India</h1>
+        <p className="text-mute text-sm mt-0.5">
+          Compare routes, see every cost, then confirm. <span className="demo">SIMULATED TRANSFER</span>
+        </p>
+      </div>
+
+      {/* Stepper Progress */}
+      <ol className="flex flex-wrap gap-x-6 gap-y-2 text-sm border-b border-rule pb-3" aria-label="Progress">
+        {STEP_LABELS.map((label, idx) => {
+          const stepNum = idx + 1;
+          const isCurrent = stepNum === step;
+          const isCompleted = stepNum < step;
+          return (
+            <li
+              key={label}
+              aria-current={isCurrent ? 'step' : undefined}
+              className={`flex items-center gap-1.5 ${
+                isCurrent ? 'font-semibold text-ink' : 'text-mute'
+              }`}
+            >
+              <span
+                className={`inline-flex items-center justify-center w-6 h-6 text-xs rounded-full border ${
+                  isCurrent
+                    ? 'bg-acc text-white border-acc font-semibold'
+                    : isCompleted
+                    ? 'bg-oksoft text-ok border-ok/30 font-semibold'
+                    : 'border-rule text-mute'
+                }`}
+              >
+                {isCompleted ? '✓' : stepNum}
+              </span>
+              <span>{label}</span>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="lg:grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+        {/* Step Body */}
+        <div>
+          {/* ================= STEP 1 ================= */}
+          {step === 1 && (
+            <div className="space-y-4">
+              <h2 className="font-serif text-xl text-ink font-semibold">1. Transfer details</h2>
+              <form className="grid sm:grid-cols-2 gap-4 bg-white border border-rule rounded p-4 sm:p-6" onSubmit={(e) => e.preventDefault()}>
+                <div>
+                  <label className="lbl" htmlFor="country-select">Sending from</label>
+                  <select id="country-select" className="field" defaultValue="United Arab Emirates">
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="lbl" htmlFor="currency-select">Sending currency</label>
+                  <select
+                    id="currency-select"
+                    className="field"
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                  >
+                    <option value="AED">AED — UAE dirham</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="lbl" htmlFor="amount-input">You send</label>
+                  <div className="flex">
+                    <span className="px-3.5 flex items-center border border-r-0 border-[#B9B2A3] rounded-l bg-canvas text-sm font-semibold text-ink">
+                      AED
+                    </span>
+                    <input
+                      id="amount-input"
+                      className="field num rounded-l-none"
+                      inputMode="decimal"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      aria-describedby="amtmsg"
+                    />
+                  </div>
+                  <p
+                    id="amtmsg"
+                    className={`text-sm mt-1.5 ${
+                      amountValidation.valid ? 'text-mute' : 'text-bad font-medium'
+                    }`}
+                    aria-live="polite"
+                  >
+                    {!amountValidation.valid && <span className="mr-1">✕</span>}
+                    {amountValidation.message}
+                  </p>
+                </div>
+                <div>
+                  <label className="lbl" htmlFor="recipient-select">Recipient</label>
+                  <select
+                    id="recipient-select"
+                    className="field"
+                    value={selectedRecipientId}
+                    onChange={(e) => setSelectedRecipientId(e.target.value)}
+                  >
+                    {recipients.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name} · {r.phoneMask || r.upiId} · UPI
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="lbl" htmlFor="purpose-select">Purpose of transfer</label>
+                  <select
+                    id="purpose-select"
+                    className="field"
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                  >
+                    {PURPOSES.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* ================= STEP 2 ================= */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <h2 className="font-serif text-xl text-ink font-semibold">2. What it costs</h2>
+              <div className="bg-white border border-rule rounded p-4 sm:p-6">
+                <p className="text-sm text-mute">{selectedRecipient.name} receives (estimated)</p>
+                <p className="font-serif text-[44px] leading-tight num font-semibold text-ink my-1">
+                  {fxService.formatINR(fxCalc.recipientINR)}
+                </p>
+                <p className="text-sm text-mute mb-4">
+                  Based on the {currentRoute.name.toLowerCase()} · arrives in {currentRoute.eta} (simulated estimate)
+                </p>
+
+                <dl className="divide-y divide-rule">
+                  <div className="row">
+                    <dt>You send</dt>
+                    <dd>{fxService.formatAED(fxCalc.fromAmount)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Transfer fee</dt>
+                    <dd>− {fxService.formatAED(fxCalc.feeAED)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Amount converted</dt>
+                    <dd>{fxService.formatAED(fxCalc.convertedAmount)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Rate we apply</dt>
+                    <dd>1 AED = ₹{fxCalc.appliedRate.toFixed(2)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Mid-market rate <span className="text-xs text-mute">(for reference)</span></dt>
+                    <dd>1 AED = ₹{fxCalc.midRate.toFixed(2)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>
+                      FX conversion cost
+                      <span className="text-xs block text-mute">
+                        {fxCalc.fxSpreadPct}% gap between our rate and mid-market
+                      </span>
+                    </dt>
+                    <dd>{fxService.formatAED(fxCalc.fxCostAED)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Other fees</dt>
+                    <dd>AED 0.00</dd>
+                  </div>
+                  <div className="row font-semibold" style={{ borderBottom: '2px solid #16233B' }}>
+                    <dt className="!text-ink font-semibold">Total cost to you</dt>
+                    <dd className="font-semibold text-ink">
+                      {fxService.formatAED(fxCalc.totalCostAED)} ({fxCalc.totalCostPct}%)
+                    </dd>
+                  </div>
+                </dl>
+
+                {/* Quote countdown & rate hold status */}
+                <div className="mt-4 pt-2 flex flex-wrap gap-2 items-center text-sm" aria-live="polite">
+                  {!isQuoteExpired ? (
+                    <>
+                      <span className="chip bg-infosoft text-info">◔ Rate held</span>
+                      <span className="num font-mono font-medium">{timerFormatted}</span>
+                      <span className="text-mute">
+                        · rates are simulated for this demo. If the timer ends we will ask you to refresh the quote.
+                      </span>
+                    </>
+                  ) : (
+                    <div className="w-full flex items-center justify-between p-3 bg-badsoft border border-bad/30 rounded text-bad">
+                      <span>✕ Rate guarantee expired. Please refresh to lock in the latest rates.</span>
+                      <button
+                        onClick={handleRefreshQuote}
+                        className="btn btn-p text-xs py-1.5 px-3 min-h-[32px]"
+                      >
+                        Refresh quote
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= STEP 3 ================= */}
+          {step === 3 && (
+            <div className="space-y-4">
+              <h2 className="font-serif text-xl text-ink font-semibold">3. Compare routes</h2>
+
+              {/* Recommendation Callout */}
+              {recommendation && (
+                <div className="bg-accsoft border border-acc rounded p-4 mb-4">
+                  <p className="font-semibold text-ink">{recommendation.title}</p>
+                  <ul className="list-disc pl-5 text-sm mt-2 space-y-1 text-ink">
+                    {recommendation.bullets.map((b, idx) => (
+                      <li key={idx} dangerouslySetInnerHTML={{ __html: b.replace(/(Costs AED [\d.]+|[\d.]+ pt|\b\d+ minutes|\b₹[\d.]+)/g, '<strong>$1</strong>') }} />
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Route Selection */}
+              <fieldset className="space-y-3">
+                <legend className="sr-only">Choose a route</legend>
+
+                {analyzedRoutes.map((route) => {
+                  if (!route.isAvailable) {
+                    return (
+                      <div key={route.id} className="route disabled" aria-disabled="true">
+                        <div className="grid sm:grid-cols-[1.4fr_3fr] gap-3">
+                          <div>
+                            <span className="chip bg-canvas text-mute border border-rule mb-1">
+                              ✕ Not available
+                            </span>
+                            <p className="font-semibold text-mute">{route.name}</p>
+                          </div>
+                          <p className="text-sm text-mute self-center">
+                            {route.unavailableReason}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  const isSelected = selectedRouteId === route.id;
+                  const isRec = route.badge === 'RECOMMENDED';
+                  const isLowest = route.badge === 'LOWEST_COST';
+                  const isDegraded = route.badge === 'DEGRADED';
+
+                  return (
+                    <label
+                      key={route.id}
+                      className={`route ${isSelected ? 'selected' : ''}`}
+                      onClick={() => setSelectedRouteId(route.id)}
+                    >
+                      <input
+                        type="radio"
+                        name="remit_route"
+                        className="sr-only"
+                        checked={isSelected}
+                        onChange={() => setSelectedRouteId(route.id)}
+                      />
+                      <div className="grid sm:grid-cols-[1.4fr_1fr_1fr_1fr] gap-3 items-start">
+                        <div>
+                          {isRec && <span className="chip bg-acc text-white mb-1">★ Recommended</span>}
+                          {isLowest && <span className="chip bg-canvas text-ink border border-rule mb-1">Lowest cost</span>}
+                          {isDegraded && <span className="chip bg-warnsoft text-warn mb-1">▲ Degraded</span>}
+                          <p className="font-semibold text-ink">{route.name}</p>
+                          <p className="text-sm text-mute">{route.subtext}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-mute">Recipient gets</p>
+                          <p className="font-serif text-xl num font-semibold text-ink">
+                            {route.recipientINRFormatted}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-mute">Total cost</p>
+                          <p className="num font-medium text-ink">{route.totalCostFormatted}</p>
+                          <p className="text-xs text-mute">Fee {route.calc.feeAED.toFixed(2)} + FX {route.calc.fxCostAED.toFixed(2)}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-mute">Arrives</p>
+                          <p className="font-medium text-ink">{route.eta}</p>
+                          <p className={`text-xs ${isDegraded ? 'text-warn' : isLowest ? 'text-warn' : 'text-ok'}`}>
+                            {isDegraded || isLowest ? '▲ ' : ''}Reliability {route.reliability}% · Available
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  );
+                })}
+              </fieldset>
+
+              <p className="text-xs text-mute mt-3 leading-relaxed">
+                Blockchain settlement is a way a rail settles. It does not make a route cheaper, faster or safer by itself, so it is judged on the same numbers as the others. All figures are simulated.
+              </p>
+            </div>
+          )}
+
+          {/* ================= STEP 4 ================= */}
+          {step === 4 && (
+            <div className="space-y-4">
+              <h2 className="font-serif text-xl text-ink font-semibold">4. Review &amp; confirm</h2>
+
+              {/* Pre-flight Checks */}
+              <section className="bg-white border border-rule rounded p-4 sm:p-6 mb-4" aria-labelledby="chk">
+                <h3 id="chk" className="font-semibold text-ink mb-2">
+                  Checks before you send <span className="demo ml-1">SIMULATED</span>
+                </h3>
+                <ul className="divide-y divide-rule text-sm">
+                  <li className="py-3 flex gap-3 items-start">
+                    <span className="chip bg-oksoft text-ok shrink-0">✓ Passed</span>
+                    <span className="text-ink">Amount is within corridor limits (AED 100 – 10,000).</span>
+                  </li>
+                  <li className="py-3 flex gap-3 items-start">
+                    <span className="chip bg-oksoft text-ok shrink-0">✓ Passed</span>
+                    <span className="text-ink">
+                      Recipient UPI ID is active and matches the name "{selectedRecipient.name}".
+                    </span>
+                  </li>
+                  <li className="py-3 flex gap-3 items-start">
+                    <span className="chip bg-oksoft text-ok shrink-0">✓ Passed</span>
+                    <span className="text-ink">Purpose "{purpose}" is permitted for this corridor.</span>
+                  </li>
+                  <li className="py-3 flex gap-3 items-start">
+                    <span className="chip bg-infosoft text-info shrink-0">ⓘ Note</span>
+                    <span className="text-mute">
+                      If a check flags this transfer after you confirm, we will tell you what is needed. Nothing is hidden or silently held.
+                    </span>
+                  </li>
+                </ul>
+              </section>
+
+              {/* Summary details */}
+              <section className="bg-white border border-rule rounded p-4 sm:p-6">
+                <h3 className="font-semibold text-ink mb-1">Summary</h3>
+                <dl className="divide-y divide-rule">
+                  <div className="row">
+                    <dt>To</dt>
+                    <dd>{selectedRecipient.name} · UPI {selectedRecipient.phoneMask || selectedRecipient.upiId}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Purpose</dt>
+                    <dd>{purpose}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Route</dt>
+                    <dd>{currentRoute.name}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>You send</dt>
+                    <dd>{fxService.formatAED(fxCalc.fromAmount)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Total cost</dt>
+                    <dd>{fxService.formatAED(fxCalc.totalCostAED)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Rate</dt>
+                    <dd>1 AED = ₹{fxCalc.appliedRate.toFixed(2)}</dd>
+                  </div>
+                  <div className="row">
+                    <dt>Estimated arrival</dt>
+                    <dd>{currentRoute.eta}</dd>
+                  </div>
+                  <div className="row font-semibold">
+                    <dt className="!text-ink font-semibold">Recipient gets</dt>
+                    <dd className="font-semibold text-ink text-base">{fxService.formatINR(fxCalc.recipientINR)}</dd>
+                  </div>
+                </dl>
+
+                {/* Acknowledgment Checkbox */}
+                <label className="flex gap-3 items-start text-sm mt-5 pt-3 border-t border-rule cursor-pointer">
+                  <input
+                    id="ack-checkbox"
+                    type="checkbox"
+                    checked={acknowledged}
+                    onChange={(e) => setAcknowledged(e.target.checked)}
+                    className="mt-0.5 w-5 h-5 accent-[#0E6B62] rounded cursor-pointer"
+                  />
+                  <span className="text-ink">
+                    I understand this is a <strong>simulated transfer</strong> in a demo environment and no real money will move.
+                  </span>
+                </label>
+              </section>
+            </div>
+          )}
+
+          {/* ================= STEP 5 ================= */}
+          {step === 5 && createdTx && (
+            <div className="space-y-4">
+              <h2 className="font-serif text-xl text-ink font-semibold">5. Track your transfer</h2>
+
+              <div className="bg-infosoft border border-info rounded p-4 text-info text-sm" role="status">
+                <strong>◔ Simulated transfer created.</strong> No money has moved and nothing has settled. This record exists only in the demo.
+              </div>
+
+              {/* Transfer Summary Card */}
+              <div className="bg-white border border-rule rounded p-4 sm:p-6">
+                <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
+                  <p className="font-mono text-sm font-semibold text-ink">{createdTx.id}</p>
+                  <span className="chip bg-warnsoft text-warn">◔ Processing (simulated)</span>
+                </div>
+                <p className="text-sm text-mute">Recipient gets (estimated)</p>
+                <p className="font-serif text-[36px] num font-semibold text-ink my-1">
+                  {fxService.formatINR(createdTx.toAmount)}
+                </p>
+                <p className="text-sm text-mute">
+                  From {fxService.formatAED(createdTx.fromAmount)} · {createdTx.routeName} · estimated arrival {createdTx.settlementTimeLabel}
+                </p>
+              </div>
+
+              {/* Event Timeline */}
+              <ol className="bg-white border border-rule rounded p-4 sm:p-6 space-y-4 text-sm" aria-label="Transaction timeline">
+                <li className="flex gap-3 items-start">
+                  <span className="chip bg-oksoft text-ok shrink-0">✓ Done</span>
+                  <div>
+                    <p className="font-medium text-ink">Transfer created</p>
+                    <p className="text-mute">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · quote and route locked</p>
+                  </div>
+                </li>
+                <li className="flex gap-3 items-start">
+                  <span className="chip bg-oksoft text-ok shrink-0">✓ Done</span>
+                  <div>
+                    <p className="font-medium text-ink">Checks passed (simulated)</p>
+                    <p className="text-mute">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                  </div>
+                </li>
+                <li className="flex gap-3 items-start">
+                  <span className="chip bg-warnsoft text-warn shrink-0">◔ Now</span>
+                  <div>
+                    <p className="font-medium text-ink">Routing to partner rail</p>
+                    <p className="text-mute">Usually under 10 minutes. We will flag it here if it takes longer.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3 items-start">
+                  <span className="chip bg-canvas text-mute border border-rule shrink-0">○ Next</span>
+                  <div>
+                    <p className="font-medium text-mute">Settlement &amp; delivery to recipient</p>
+                  </div>
+                </li>
+              </ol>
+
+              {/* Technical Details Accordion */}
+              <details className="bg-white border border-rule rounded p-4 text-sm">
+                <summary className="font-medium text-ink cursor-pointer select-none">Technical details</summary>
+                <dl className="mt-2 divide-y divide-rule">
+                  <div className="row">
+                    <dt>Settlement reference</dt>
+                    <dd className="font-mono">Not issued (simulated)</dd>
+                  </div>
+                  <div className="row">
+                    <dt>On-chain record</dt>
+                    <dd className="font-mono text-xs">
+                      {createdTx.blockchainTxHash ? createdTx.blockchainTxHash : 'None for this route'}
+                    </dd>
+                  </div>
+                  <div className="row">
+                    <dt>Data source</dt>
+                    <dd><span className="demo">DEMO</span></dd>
+                  </div>
+                </dl>
+              </details>
+            </div>
+          )}
+
+          {/* Desktop Back button row */}
+          {step > 1 && step < 5 && (
+            <div className="mt-6 hidden lg:flex gap-3">
+              <button onClick={handleBack} className="btn btn-s">
+                Back
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Pinned summary rail (bottom bar on mobile, sticky rail on desktop) */}
+        <aside
+          className="fixed bottom-0 inset-x-0 z-10 bg-white border-t border-rule p-4 shadow-[0_-4px_12px_rgba(22,35,59,.08)] lg:static lg:border lg:rounded lg:shadow-none lg:sticky lg:top-6"
+          aria-label="Transfer summary"
+        >
+          <div className="flex lg:block items-center justify-between gap-4">
+            <div>
+              <p className="text-xs text-mute">Recipient gets</p>
+              <p className="font-serif text-2xl lg:text-[32px] num font-semibold leading-tight text-ink">
+                {fxService.formatINR(fxCalc.recipientINR)}
+              </p>
+            </div>
+            <dl className="hidden lg:block text-sm mt-3 divide-y divide-rule">
+              <div className="row">
+                <dt>You send</dt>
+                <dd>{fxService.formatAED(fxCalc.fromAmount)}</dd>
+              </div>
+              <div className="row">
+                <dt>Total cost</dt>
+                <dd>{fxService.formatAED(fxCalc.totalCostAED)}</dd>
+              </div>
+              <div className="row">
+                <dt>Rate</dt>
+                <dd>1 AED = ₹{fxCalc.appliedRate.toFixed(2)}</dd>
+              </div>
+              <div className="row">
+                <dt>Arrives</dt>
+                <dd>{currentRoute.eta}</dd>
+              </div>
+              <div className="row">
+                <dt>Route</dt>
+                <dd>{currentRoute.shortName}</dd>
+              </div>
+            </dl>
+            <button
+              onClick={handleContinue}
+              disabled={!canContinue}
+              className="btn btn-p lg:w-full lg:mt-4 whitespace-nowrap"
+            >
+              {CTA_LABELS[step - 1]}
+            </button>
+          </div>
+          <p className="hidden lg:block text-xs text-mute mt-3">
+            <span className="demo">DEMO</span> Rates and routes are simulated.
+          </p>
+        </aside>
       </div>
     </div>
   );
 }
+
