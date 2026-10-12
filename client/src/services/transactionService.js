@@ -1,11 +1,53 @@
 /**
  * client/src/services/transactionService.js
- * Transaction builder and generator for the Ledger prototype.
+ *
+ * Transaction service connecting directly to the backend RemittanceOS API.
+ * The server is the single source of truth for transaction creation, fee calculations,
+ * and state transitions.
  */
 
+import { apiClient } from './apiClient.js';
 import { TRANSACTION_STATUS } from '@shared/constants/transactionStatus.js';
 
 export const transactionService = {
+  /**
+   * Creates a transaction on the server with idempotency protection.
+   */
+  async createTransaction(payload, idempotencyKey = null) {
+    const headers = {};
+    if (idempotencyKey) {
+      headers['Idempotency-Key'] = idempotencyKey;
+    }
+    return apiClient.post('/transactions', payload, { headers });
+  },
+
+  /**
+   * Fetches all transactions from the server.
+   */
+  async getTransactions(filters = {}) {
+    const params = new URLSearchParams();
+    if (filters.status && filters.status !== 'all') params.append('status', filters.status);
+    if (filters.route && filters.route !== 'all') params.append('route', filters.route);
+    if (filters.search) params.append('search', filters.search);
+
+    const qs = params.toString() ? `?${params.toString()}` : '';
+    return apiClient.get(`/transactions${qs}`);
+  },
+
+  /**
+   * Fetches a single transaction by ID.
+   */
+  async getTransactionById(id) {
+    return apiClient.get(`/transactions/${id}`);
+  },
+
+  /**
+   * Advances status through the server-side state machine.
+   */
+  async updateStatus(id, status, reason = null) {
+    return apiClient.post(`/transactions/${id}/status`, { status, reason });
+  },
+
   generateId(existingTransactions = []) {
     let maxNum = 42;
     for (const t of existingTransactions) {
@@ -59,10 +101,10 @@ export const transactionService = {
       purpose,
       settlementTime: null,
       settlementTimeLabel: route.eta,
-      blockchainTxHash: route.id === 'blockchain_partner' ? '0x' + Array.from({length: 40}, () => Math.floor(Math.random()*16).toString(16)).join('') : null,
+      blockchainTxHash: route.id === 'blockchain_partner' ? 'sim_sepolia_ref_' + Date.now().toString(36) : null,
       riskScore: 12,
       riskLevel: 'LOW',
-      note: `Simulated transfer initiated via ${route.name}. No money has moved.`,
+      note: `Simulated transfer initiated via ${route.name}. Safe hackathon prototype.`,
       timeline: [
         {
           title: 'Transfer created',
@@ -79,7 +121,7 @@ export const transactionService = {
         {
           title: `Routing to ${route.shortName} rail`,
           time: 'Now',
-          detail: `Usually ${route.eta}. We will flag it here if it takes longer.`,
+          detail: `Usually ${route.eta}.`,
           status: 'now',
         },
         {
@@ -92,4 +134,3 @@ export const transactionService = {
     };
   },
 };
-

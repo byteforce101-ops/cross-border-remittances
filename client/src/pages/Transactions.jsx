@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, ArrowUpDown } from 'lucide-react';
 import { useStore } from '../store/useStore.js';
@@ -11,6 +11,11 @@ export default function Transactions() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const transactions = useStore(s => s.transactions);
+  const fetchTransactions = useStore(s => s.fetchTransactions);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [statusFilter, setStatusFilter] = useState('all');

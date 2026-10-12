@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore.js';
 import { UserPlus, Edit2, Trash2, CheckCircle2, XCircle, Search, ArrowUpRight, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -83,9 +83,14 @@ function RecipientModal({ recipient, onSave, onClose }) {
 export default function Recipients() {
   const navigate = useNavigate();
   const recipients = useStore(s => s.recipients);
+  const fetchRecipients = useStore(s => s.fetchRecipients);
   const addRecipient = useStore(s => s.addRecipient);
   const updateRecipient = useStore(s => s.updateRecipient);
   const deleteRecipient = useStore(s => s.deleteRecipient);
+
+  useEffect(() => {
+    fetchRecipients();
+  }, [fetchRecipients]);
 
   const [modalMode, setModalMode] = useState(null); // null | 'add' | recipient object
   const [search, setSearch] = useState('');

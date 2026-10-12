@@ -4,7 +4,7 @@ import { StatusBadge } from '../components/common/StatusBadge.jsx';
 import { fxService } from '../services/fxService.js';
 import { TRANSACTION_STATUS } from '@shared/constants/transactionStatus.js';
 import { Copy, ArrowLeft, Check, AlertTriangle, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function TransactionDetail() {
   const { id } = useParams();
@@ -12,9 +12,16 @@ export default function TransactionDetail() {
   const navigate = useNavigate();
   const getTransaction = useStore(s => s.getTransaction);
   const updateTransaction = useStore(s => s.updateTransaction);
+  const fetchTransactions = useStore(s => s.fetchTransactions);
   const [copied, setCopied] = useState(false);
 
   const tx = getTransaction(id);
+
+  useEffect(() => {
+    if (!tx) {
+      fetchTransactions();
+    }
+  }, [tx, fetchTransactions]);
 
   if (!tx) {
     return (

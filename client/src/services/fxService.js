@@ -1,7 +1,11 @@
 /**
  * client/src/services/fxService.js
- * FX rate and conversion calculations matching the Ledger design prototype.
+ *
+ * FX rate and conversion calculations connecting to backend API
+ * with local fallback formatters.
  */
+
+import { apiClient } from './apiClient.js';
 
 const MID_MARKET_RATES = {
   AED: 24.12, // 1 AED = 24.12 INR
@@ -14,9 +18,23 @@ const MID_MARKET_RATES = {
 
 export const fxService = {
   getMidMarketRate(fromCurrency = 'AED') {
-    return MID_MARKET_RATES[fromCurrency] || 24.12;
+    return MID_MARKET_RATES[fromCurrency.toUpperCase()] || 24.12;
   },
 
+  /**
+   * Fetches an authoritative server-calculated FX quote.
+   */
+  async fetchQuote({ fromAmount, fromCurrency = 'AED', routeId = 'upi_partner' }) {
+    return apiClient.post('/fx/quote', {
+      fromAmount: parseFloat(fromAmount),
+      fromCurrency,
+      routeId,
+    });
+  },
+
+  /**
+   * Synchronous calculation helper for instantaneous typing preview.
+   */
   calculate({ fromAmount, fromCurrency = 'AED', route }) {
     const amt = parseFloat(fromAmount) || 0;
     const midRate = this.getMidMarketRate(fromCurrency);
@@ -53,7 +71,6 @@ export const fxService = {
   formatINR(val) {
     if (val === null || val === undefined || isNaN(val)) return '₹0.00';
     const num = Number(val);
-    // Indian number formatting: e.g. 1,19,612.24
     const parts = num.toFixed(2).split('.');
     let integerPart = parts[0];
     const decimalPart = parts[1];
@@ -72,12 +89,19 @@ export const fxService = {
     return `AED ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   },
 
+  formatCurrency(val, currency = 'AED') {
+    if (val === null || val === undefined || isNaN(val)) return `${currency} 0.00`;
+    const num = Number(val);
+    return `${currency} ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  },
+
   getSupportedCurrencies() {
     return [
       { code: 'AED', name: 'AED — UAE dirham' },
       { code: 'USD', name: 'USD — US dollar' },
       { code: 'GBP', name: 'GBP — British pound' },
       { code: 'SGD', name: 'SGD — Singapore dollar' },
+      { code: 'EUR', name: 'EUR — Euro' },
     ];
   },
 
@@ -90,4 +114,3 @@ export const fxService = {
     ];
   },
 };
-

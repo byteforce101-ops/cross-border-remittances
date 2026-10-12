@@ -6,41 +6,82 @@
  *
  * IMPORTANT: This adapter NEVER makes real API calls.
  * It is explicitly labelled as MOCK/DEMO in all responses.
- *
- * When real NPCI credentials and API access are obtained,
- * use NpciLiveAdapter instead (configured via NPCI_ADAPTER=live env var).
  */
 
 import { PaymentRailAdapter } from '../../interface/PaymentRailAdapter.js';
 
 export class NpciMockAdapter extends PaymentRailAdapter {
   get name() {
-    return 'NPCI/UPI (Mock)';
+    return 'NPCI / UPI (Simulated)';
+  }
+
+  get id() {
+    return 'npci';
   }
 
   async isAvailable() {
     return true; // Always available in mock mode
   }
 
-  async getFee({ amount }) {
-    // Mock: flat 0.5% fee, min $0.50
-    const fee = Math.max(amount * 0.005, 0.50);
-    return { feeAmount: fee, feeCurrency: 'USD', estimatedFeeUSD: fee };
+  async getFee({ amount = 1000, fromCurrency = 'AED' }) {
+    // 0.5% fee with min 1 unit of fromCurrency
+    const feeAmount = Math.max(parseFloat((amount * 0.005).toFixed(2)), 1.00);
+    return {
+      feeAmount,
+      feeCurrency: fromCurrency,
+      estimatedFeeUSD: parseFloat((feeAmount * (fromCurrency === 'AED' ? 0.27 : 1)).toFixed(2)),
+      isMock: true,
+    };
+  }
+
+  async estimateFee(amount = 1000, fromCurrency = 'AED') {
+    const fee = await this.getFee({ amount, fromCurrency });
+    return fee.feeAmount;
   }
 
   async getEstimatedSettlementTime() {
-    return 30; // Mock: 30 seconds
+    return 30; // 30 seconds
+  }
+
+  async estimateSettlementTime() {
+    const secs = await this.getEstimatedSettlementTime();
+    return { estimatedSeconds: secs };
   }
 
   async initiateTransfer(payload) {
-    // TODO: Implement mock transfer simulation
-    console.log('[NpciMockAdapter] initiateTransfer called — not yet implemented', payload);
-    throw new Error('NpciMockAdapter.initiateTransfer: not yet implemented');
+    const timestamp = Date.now();
+    const suffix = Math.random().toString(36).substring(2, 8);
+    const railTransactionId = `sim_npci_${timestamp}_${suffix}`;
+    const vpa = payload.recipientUpi || payload.recipient?.upiId || 'demo.user@npci';
+
+    return {
+      railTransactionId,
+      status: 'PROCESSING',
+      providerReference: `NPCI-SIM-${timestamp.toString().slice(-6)}`,
+      estimatedSettlementSeconds: 30,
+      metadata: {
+        rail: 'npci',
+        mode: 'SIMULATION',
+        provider: 'NPCI UPI Partner Switch',
+        recipientVpa: vpa,
+        clearingNetwork: 'UPI (National Payments Corporation of India Mock)',
+        isMock: true,
+        initiatedAt: new Date().toISOString(),
+      },
+    };
   }
 
   async getTransferStatus(railTransactionId) {
-    // TODO: Implement mock status lookup
-    console.log('[NpciMockAdapter] getTransferStatus called — not yet implemented', railTransactionId);
-    throw new Error('NpciMockAdapter.getTransferStatus: not yet implemented');
+    return {
+      railTransactionId,
+      status: 'COMPLETED',
+      metadata: {
+        rail: 'npci',
+        mode: 'SIMULATION',
+        providerReference: `NPCI-SIM-CONF-${railTransactionId.slice(-6)}`,
+        settledAt: new Date().toISOString(),
+        isMock: true,
+      },
+    };
   }
 }

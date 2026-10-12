@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore.js';
 import { fxService } from '../services/fxService.js';
@@ -30,10 +30,24 @@ export default function SendMoney() {
   const [selectedRouteId, setSelectedRouteId] = useState('upi_partner');
   const [acknowledged, setAcknowledged] = useState(false);
   const [createdTx, setCreatedTx] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const idempotencyKeyRef = useRef(null);
 
   // Quote timer state (300 seconds = 5 min)
   const [quoteSeconds, setQuoteSeconds] = useState(299);
   const [isQuoteExpired, setIsQuoteExpired] = useState(false);
+
+  // Initialize idempotency key when entering Step 4
+  useEffect(() => {
+    if (step === 4 && !idempotencyKeyRef.current) {
+      idempotencyKeyRef.current = `idem_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    }
+    if (step < 4) {
+      idempotencyKeyRef.current = null;
+      setSubmitError(null);
+    }
+  }, [step]);
 
   useEffect(() => {
     if (isQuoteExpired || step === 5) return;
@@ -114,12 +128,12 @@ export default function SendMoney() {
     if (step === 1) return amountValidation.valid;
     if (step === 2) return !isQuoteExpired;
     if (step === 3) return currentRoute && currentRoute.isAvailable;
-    if (step === 4) return acknowledged && !isQuoteExpired;
+    if (step === 4) return acknowledged && !isQuoteExpired && !isSubmitting;
     return true;
-  }, [step, amountValidation.valid, isQuoteExpired, currentRoute, acknowledged]);
+  }, [step, amountValidation.valid, isQuoteExpired, currentRoute, acknowledged, isSubmitting]);
 
   // Handle CTA button click
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (step === 1) {
       if (!amountValidation.valid) return;
       setStep(2);
@@ -132,21 +146,31 @@ export default function SendMoney() {
       setStep(4);
       window.scrollTo(0, 0);
     } else if (step === 4) {
-      if (!acknowledged || isQuoteExpired) return;
-      // Create new transaction
-      const newTx = transactionService.buildTransaction({
-        existingTransactions: transactions,
-        amount: numericAmount,
-        fromCurrency: currency,
-        recipient: selectedRecipient,
-        purpose,
-        route: currentRoute,
-        calc: fxCalc,
-      });
-      addTransaction(newTx);
-      setCreatedTx(newTx);
-      setStep(5);
-      window.scrollTo(0, 0);
+      if (!acknowledged || isQuoteExpired || isSubmitting) return;
+      setIsSubmitting(true);
+      setSubmitError(null);
+      try {
+        const payload = {
+          amount: numericAmount,
+          fromCurrency: currency,
+          recipientId: selectedRecipient.id,
+          recipient: selectedRecipient,
+          purpose,
+          routeId: currentRoute.id,
+          senderName: 'Arjun Patel',
+          senderCountry: 'United Arab Emirates',
+          senderCountryCode: 'AE',
+        };
+        const created = await addTransaction(payload, idempotencyKeyRef.current);
+        setCreatedTx(created);
+        setStep(5);
+        window.scrollTo(0, 0);
+      } catch (err) {
+        console.error('Failed to create transaction on server:', err);
+        setSubmitError(err.message || 'Server transfer submission failed. Please retry.');
+      } finally {
+        setIsSubmitting(false);
+      }
     } else if (step === 5) {
       navigate('/');
     }
@@ -539,12 +563,30 @@ export default function SendMoney() {
                     type="checkbox"
                     checked={acknowledged}
                     onChange={(e) => setAcknowledged(e.target.checked)}
+                    disabled={isSubmitting}
                     className="mt-0.5 w-5 h-5 accent-[#0E6B62] rounded cursor-pointer"
                   />
                   <span className="text-ink">
                     I understand this is a <strong>simulated transfer</strong> in a demo environment and no real money will move.
                   </span>
                 </label>
+
+                {/* Submission Error Banner */}
+                {submitError && (
+                  <div className="mt-4 p-3.5 bg-badsoft border border-bad/30 rounded text-bad text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2" role="alert">
+                    <div>
+                      <strong>Transfer Submission Failed:</strong> {submitError}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleContinue}
+                      disabled={isSubmitting}
+                      className="btn btn-p text-xs py-1 px-3 self-start sm:self-auto shrink-0"
+                    >
+                      Retry submission
+                    </button>
+                  </div>
+                )}
               </section>
             </div>
           )}
@@ -676,7 +718,7 @@ export default function SendMoney() {
               disabled={!canContinue}
               className="btn btn-p lg:w-full lg:mt-4 whitespace-nowrap"
             >
-              {CTA_LABELS[step - 1]}
+              {step === 4 && isSubmitting ? 'Initiating transfer...' : CTA_LABELS[step - 1]}
             </button>
           </div>
           <p className="hidden lg:block text-xs text-mute mt-3">

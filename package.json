@@ -1,12 +1,16 @@
 {
   "name": "cross-border-remittance-platform",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "description": "Drunix × Citi Hackathon — Intelligent Cross-Border Payment Orchestration Platform",
   "scripts": {
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev": "concurrently -n \"client,server\" -c \"cyan.bold,green.bold\" \"npm run dev:client\" \"npm run dev:server\"",
+    "test:server": "npm test --prefix server",
+    "test": "npm test --prefix server",
+    "build:client": "npm run build --prefix client",
     "install:all": "npm install && npm install --prefix client && npm install --prefix server && npm install --prefix blockchain"
   },
   "devDependencies": {

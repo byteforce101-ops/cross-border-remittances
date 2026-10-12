@@ -1,96 +1,119 @@
 /**
- * client/src/store/useStore.js — Zustand global store with localStorage persistence
+ * client/src/store/useStore.js — Zustand global store connected to backend API
  */
 import { create } from 'zustand';
 import { DEMO_TRANSACTIONS, DEMO_RECIPIENTS } from '../services/mockData.js';
-
-const TX_STORAGE_KEY = 'remit_ledger_transactions_v1';
-const REC_STORAGE_KEY = 'remit_ledger_recipients_v1';
-
-const loadStoredTransactions = () => {
-  try {
-    const saved = localStorage.getItem(TX_STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch (e) {
-    console.error('Failed to load stored transactions', e);
-  }
-  return [...DEMO_TRANSACTIONS];
-};
-
-const loadStoredRecipients = () => {
-  try {
-    const saved = localStorage.getItem(REC_STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch (e) {
-    console.error('Failed to load stored recipients', e);
-  }
-  return [...DEMO_RECIPIENTS];
-};
+import { transactionService } from '../services/transactionService.js';
+import { recipientService } from '../services/recipientService.js';
 
 export const useStore = create((set, get) => ({
   // ── Transactions ───────────────────────────────────────────────────────────
-  transactions: loadStoredTransactions(),
+  transactions: [...DEMO_TRANSACTIONS],
+  isLoadingTransactions: false,
+  transactionError: null,
 
-  addTransaction: (tx) =>
-    set(state => {
-      const updated = [tx, ...state.transactions];
-      try {
-        localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(updated));
-      } catch (e) {
-        console.error(e);
+  fetchTransactions: async (filters = {}) => {
+    set({ isLoadingTransactions: true, transactionError: null });
+    try {
+      const data = await transactionService.getTransactions(filters);
+      if (Array.isArray(data)) {
+        set({ transactions: data, isLoadingTransactions: false });
       }
-      return { transactions: updated };
-    }),
+    } catch (err) {
+      console.warn('Backend fetchTransactions error:', err.message);
+      set({ isLoadingTransactions: false, transactionError: err.message });
+    }
+  },
 
-  updateTransaction: (id, updates) =>
-    set(state => {
-      const updated = state.transactions.map(t => (t.id === id ? { ...t, ...updates } : t));
+  addTransaction: async (txPayload, idempotencyKey = null) => {
+    // Attempt backend creation as single source of truth
+    try {
+      const created = await transactionService.createTransaction(txPayload, idempotencyKey);
+      set(state => {
+        // Deduplicate in local state if replay
+        const exists = state.transactions.some(t => t.id === created.id);
+        const updated = exists
+          ? state.transactions.map(t => (t.id === created.id ? created : t))
+          : [created, ...state.transactions];
+        return { transactions: updated };
+      });
+      return created;
+    } catch (err) {
+      // Re-throw so UI can handle error cleanly without silent fallback
+      throw err;
+    }
+  },
+
+  updateTransaction: async (id, updates) => {
+    // Optimistic local update
+    set(state => ({
+      transactions: state.transactions.map(t => (t.id === id ? { ...t, ...updates } : t)),
+    }));
+    // Sync status with backend if status is being updated
+    if (updates.status) {
       try {
-        localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(updated));
-      } catch (e) {
-        console.error(e);
+        await transactionService.updateStatus(id, updates.status, updates.reason);
+      } catch (err) {
+        console.warn('Backend updateStatus error:', err.message);
       }
-      return { transactions: updated };
-    }),
+    }
+  },
 
   getTransaction: (id) => get().transactions.find(t => t.id === id),
 
-  resetTransactions: () => {
+  // ── Recipients ─────────────────────────────────────────────────────────────
+  recipients: [...DEMO_RECIPIENTS],
+  isLoadingRecipients: false,
+
+  fetchRecipients: async () => {
+    set({ isLoadingRecipients: true });
     try {
-      localStorage.removeItem(TX_STORAGE_KEY);
-    } catch (e) {}
-    set({ transactions: [...DEMO_TRANSACTIONS] });
+      const data = await recipientService.getRecipients();
+      if (Array.isArray(data)) {
+        set({ recipients: data, isLoadingRecipients: false });
+      }
+    } catch (err) {
+      console.warn('Backend fetchRecipients error:', err.message);
+      set({ isLoadingRecipients: false });
+    }
   },
 
-  // ── Recipients ─────────────────────────────────────────────────────────────
-  recipients: loadStoredRecipients(),
+  addRecipient: async (rec) => {
+    try {
+      const created = await recipientService.createRecipient(rec);
+      set(state => ({ recipients: [created, ...state.recipients] }));
+      return created;
+    } catch (err) {
+      console.warn('Backend addRecipient error, falling back locally:', err.message);
+      set(state => ({ recipients: [rec, ...state.recipients] }));
+      return rec;
+    }
+  },
 
-  addRecipient: (rec) =>
-    set(state => {
-      const updated = [rec, ...state.recipients];
-      try {
-        localStorage.setItem(REC_STORAGE_KEY, JSON.stringify(updated));
-      } catch (e) {}
-      return { recipients: updated };
-    }),
+  updateRecipient: async (id, updates) => {
+    try {
+      const updated = await recipientService.updateRecipient(id, updates);
+      set(state => ({
+        recipients: state.recipients.map(r => (r.id === id ? updated : r)),
+      }));
+      return updated;
+    } catch (err) {
+      set(state => ({
+        recipients: state.recipients.map(r => (r.id === id ? { ...r, ...updates } : r)),
+      }));
+    }
+  },
 
-  updateRecipient: (id, updates) =>
-    set(state => {
-      const updated = state.recipients.map(r => (r.id === id ? { ...r, ...updates } : r));
-      try {
-        localStorage.setItem(REC_STORAGE_KEY, JSON.stringify(updated));
-      } catch (e) {}
-      return { recipients: updated };
-    }),
-
-  deleteRecipient: (id) =>
-    set(state => {
-      const updated = state.recipients.filter(r => r.id !== id);
-      try {
-        localStorage.setItem(REC_STORAGE_KEY, JSON.stringify(updated));
-      } catch (e) {}
-      return { recipients: updated };
-    }),
+  deleteRecipient: async (id) => {
+    try {
+      await recipientService.deleteRecipient(id);
+    } catch (err) {
+      console.warn('Backend deleteRecipient error:', err.message);
+    }
+    set(state => ({
+      recipients: state.recipients.filter(r => r.id !== id),
+    }));
+  },
 
   // ── UI State ───────────────────────────────────────────────────────────────
   sidebarCollapsed: false,
@@ -108,4 +131,3 @@ export const useStore = create((set, get) => ({
     })),
   unreadCount: () => get().notifications.filter(n => !n.read).length,
 }));
-

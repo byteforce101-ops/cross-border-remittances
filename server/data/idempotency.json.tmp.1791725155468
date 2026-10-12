@@ -1,0 +1,624 @@
+[
+  {
+    "id": "test_key_1791725155354",
+    "response": {
+      "id": "TXN-D-0068",
+      "date": "2026-10-11T13:25:55.453Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791725155453_tjq0n5",
+      "providerReference": "NPCI-SIM-155453",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:55 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:55 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-155453",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:25:55.453Z"
+      },
+      "createdAt": "2026-10-11T13:25:55.453Z",
+      "updatedAt": "2026-10-11T13:25:55.453Z"
+    },
+    "createdAt": "2026-10-11T13:25:55.468Z"
+  },
+  {
+    "id": "test_key_1791724949456",
+    "response": {
+      "id": "TXN-D-0064",
+      "date": "2026-10-11T13:22:29.558Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724949558_n0llfh",
+      "providerReference": "NPCI-SIM-949558",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:52 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:52 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-949558",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:22:29.558Z"
+      },
+      "createdAt": "2026-10-11T13:22:29.558Z",
+      "updatedAt": "2026-10-11T13:22:29.558Z"
+    },
+    "createdAt": "2026-10-11T13:22:29.572Z"
+  },
+  {
+    "id": "test_key_1791724714124",
+    "response": {
+      "id": "TXN-D-0060",
+      "date": "2026-10-11T13:18:34.221Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724714221_5v5b36",
+      "providerReference": "NPCI-SIM-714221",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:48 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:48 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-714221",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:18:34.221Z"
+      },
+      "createdAt": "2026-10-11T13:18:34.221Z",
+      "updatedAt": "2026-10-11T13:18:34.221Z"
+    },
+    "createdAt": "2026-10-11T13:18:34.237Z"
+  },
+  {
+    "id": "test_key_1791724623070",
+    "response": {
+      "id": "TXN-D-0056",
+      "date": "2026-10-11T13:17:03.163Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724623163_tzfxjb",
+      "providerReference": "NPCI-SIM-623163",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:47 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:47 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-623163",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:17:03.163Z"
+      },
+      "createdAt": "2026-10-11T13:17:03.163Z",
+      "updatedAt": "2026-10-11T13:17:03.163Z"
+    },
+    "createdAt": "2026-10-11T13:17:03.177Z"
+  },
+  {
+    "id": "test_key_1791724445048",
+    "response": {
+      "id": "TXN-D-0052",
+      "date": "2026-10-11T13:14:05.145Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724445145_3bnz3m",
+      "providerReference": "NPCI-SIM-445145",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:44 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:44 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-445145",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:14:05.145Z"
+      },
+      "createdAt": "2026-10-11T13:14:05.145Z",
+      "updatedAt": "2026-10-11T13:14:05.145Z"
+    },
+    "createdAt": "2026-10-11T13:14:05.160Z"
+  },
+  {
+    "id": "test_key_1791724384039",
+    "response": {
+      "id": "TXN-D-0048",
+      "date": "2026-10-11T13:13:04.150Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724384150_dta4qa",
+      "providerReference": "NPCI-SIM-384150",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "isSimulated": true,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:43 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:43 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-384150",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:13:04.150Z"
+      },
+      "createdAt": "2026-10-11T13:13:04.150Z",
+      "updatedAt": "2026-10-11T13:13:04.150Z"
+    },
+    "createdAt": "2026-10-11T13:13:04.164Z"
+  },
+  {
+    "id": "test_key_1791724308179",
+    "response": {
+      "id": "TXN-D-0047",
+      "date": "2026-10-11T13:11:48.217Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724308217_85dq0f",
+      "providerReference": "NPCI-SIM-308217",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:41 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:41 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-308217",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:11:48.217Z"
+      },
+      "createdAt": "2026-10-11T13:11:48.217Z",
+      "updatedAt": "2026-10-11T13:11:48.217Z"
+    },
+    "createdAt": "2026-10-11T13:11:48.230Z"
+  },
+  {
+    "id": "test_key_1791724270840",
+    "response": {
+      "id": "TXN-D-0043",
+      "date": "2026-10-11T13:11:10.937Z",
+      "senderName": "Arjun Patel",
+      "senderCountry": "United Arab Emirates",
+      "senderCountryCode": "AE",
+      "senderCurrency": "AED",
+      "recipientName": "Vikram Malhotra",
+      "recipientUpi": "vikram.m@oksbi",
+      "recipientBank": "State Bank of India",
+      "fromAmount": 2500,
+      "fromCurrency": "AED",
+      "toAmount": 59662.49,
+      "toCurrency": "INR",
+      "fxRate": 23.9801,
+      "midMarketRate": 24.12,
+      "transferFee": 12,
+      "fxFee": 14.43,
+      "totalFee": 26.43,
+      "feeCurrency": "AED",
+      "route": "upi_partner",
+      "routeName": "NPCI / UPI (Simulated)",
+      "routeShort": "UPI-linked",
+      "status": "PROCESSING",
+      "statusLabel": "Processing (simulated)",
+      "purpose": "Family support",
+      "settlementTime": null,
+      "settlementTimeLabel": "1 min (est)",
+      "railTransactionId": "sim_npci_1791724270937_ef35qp",
+      "providerReference": "NPCI-SIM-270937",
+      "blockchainTxHash": null,
+      "riskScore": 25,
+      "riskLevel": "LOW",
+      "requiresManualReview": false,
+      "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+      "timeline": [
+        {
+          "title": "Transfer created",
+          "time": "06:41 pm",
+          "detail": "Quote locked: 1 AED = ₹23.9801",
+          "status": "done"
+        },
+        {
+          "title": "Pre-flight checks passed (simulated)",
+          "time": "06:41 pm",
+          "detail": "Risk Score: 25/100 (LOW)",
+          "status": "done"
+        },
+        {
+          "title": "Routed to NPCI / UPI (Simulated)",
+          "time": "Now",
+          "detail": "Provider Ref: NPCI-SIM-270937",
+          "status": "now"
+        },
+        {
+          "title": "Settlement & delivery to recipient",
+          "time": "Next",
+          "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+          "status": "next"
+        }
+      ],
+      "metadata": {
+        "rail": "npci",
+        "mode": "SIMULATION",
+        "provider": "NPCI UPI Partner Switch",
+        "recipientVpa": "vikram.m@oksbi",
+        "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+        "isMock": true,
+        "initiatedAt": "2026-10-11T13:11:10.937Z"
+      },
+      "createdAt": "2026-10-11T13:11:10.937Z",
+      "updatedAt": "2026-10-11T13:11:10.937Z"
+    },
+    "createdAt": "2026-10-11T13:11:10.952Z"
+  }
+]

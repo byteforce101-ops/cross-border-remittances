@@ -37,6 +37,11 @@ export class PaymentRailAdapter {
     throw new Error('Not implemented');
   }
 
+  async estimateFee(amount, fromCurrency = 'AED') {
+    const feeObj = await this.getFee({ amount, fromCurrency });
+    return typeof feeObj === 'object' ? feeObj.feeAmount : feeObj;
+  }
+
   /**
    * Get the estimated settlement time in seconds.
    * @param {{ amount: number, fromCurrency: string, toCurrency: string }} params
@@ -44,6 +49,11 @@ export class PaymentRailAdapter {
    */
   async getEstimatedSettlementTime(_params) {
     throw new Error('Not implemented');
+  }
+
+  async estimateSettlementTime(params) {
+    const secs = await this.getEstimatedSettlementTime(params);
+    return { estimatedSeconds: secs };
   }
 
   /**

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "rec-001",
+    "name": "Anita Sharma",
+    "phoneMask": "•••• 4821",
+    "upiId": "anita.sharma@okaxis",
+    "bankName": "Axis Bank",
+    "country": "India",
+    "verified": true,
+    "totalTransfers": 15,
+    "lastTransfer": "Just now",
+    "totalVolumeINR": 461612.74,
+    "updatedAt": "2026-10-12T09:25:21.803Z"
+  },
+  {
+    "id": "rec-002",
+    "name": "Priya Sharma",
+    "phoneMask": "•••• 1984",
+    "upiId": "priya.sharma@okicici",
+    "bankName": "ICICI Bank",
+    "country": "India",
+    "verified": true,
+    "totalTransfers": 8,
+    "lastTransfer": "Yesterday",
+    "totalVolumeINR": 195000
+  },
+  {
+    "id": "rec-003",
+    "name": "Rajesh Verma",
+    "phoneMask": "•••• 3341",
+    "upiId": "rajesh.v@okhdfcbank",
+    "bankName": "HDFC Bank",
+    "country": "India",
+    "verified": true,
+    "totalTransfers": 5,
+    "lastTransfer": "5 days ago",
+    "totalVolumeINR": 120000
+  },
+  {
+    "id": "rec-004",
+    "name": "Sunita Patel",
+    "phoneMask": "•••• 7720",
+    "upiId": "sunita.p@oksbi",
+    "bankName": "State Bank of India",
+    "country": "India",
+    "verified": false,
+    "totalTransfers": 1,
+    "lastTransfer": "10 days ago",
+    "totalVolumeINR": 25000
+  }
+]

@@ -1,39 +1,67 @@
 /**
  * integrations/swift/SwiftAdapter.js
  *
- * SWIFT / Correspondent Banking rail adapter — placeholder.
- *
- * PURPOSE (future):
- *   Handle transfers routed via the traditional SWIFT interbank network.
- *   Typically used for high-value, cross-currency, bank-to-bank transfers.
- *
- * STATUS: Not yet implemented.
+ * SWIFT / Correspondent Banking rail adapter — Mock implementation.
  */
 
 import { PaymentRailAdapter } from '../interface/PaymentRailAdapter.js';
 
 export class SwiftAdapter extends PaymentRailAdapter {
   get name() {
-    return 'SWIFT / Correspondent Banking';
+    return 'SWIFT Network (Simulated)';
+  }
+
+  get id() {
+    return 'swift';
   }
 
   async isAvailable() {
-    throw new Error('SwiftAdapter: not yet implemented');
+    return true;
   }
 
-  async getFee(_params) {
-    throw new Error('SwiftAdapter: not yet implemented');
+  async getFee({ amount = 1000, fromCurrency = 'AED' }) {
+    const feeAmount = fromCurrency === 'AED' ? 45.00 : fromCurrency === 'USD' ? 15.00 : 12.00;
+    return {
+      feeAmount,
+      feeCurrency: fromCurrency,
+      estimatedFeeUSD: 15.00,
+      isMock: true,
+    };
   }
 
-  async getEstimatedSettlementTime(_params) {
-    throw new Error('SwiftAdapter: not yet implemented');
+  async getEstimatedSettlementTime() {
+    return 86400 * 2; // ~2 business days
   }
 
-  async initiateTransfer(_payload) {
-    throw new Error('SwiftAdapter: not yet implemented');
+  async initiateTransfer(payload) {
+    const timestamp = Date.now();
+    const suffix = Math.random().toString(36).substring(2, 8);
+    const railTransactionId = `sim_swift_${timestamp}_${suffix}`;
+
+    return {
+      railTransactionId,
+      status: 'PROCESSING',
+      providerReference: `SWIFT-SIM-${timestamp.toString().slice(-8)}`,
+      estimatedSettlementSeconds: 86400 * 2,
+      metadata: {
+        rail: 'swift',
+        mt103Reference: `SIM103${timestamp.toString().slice(-6)}`,
+        intermediaryBanks: 2,
+        isMock: true,
+        initiatedAt: new Date().toISOString(),
+      },
+    };
   }
 
-  async getTransferStatus(_railTransactionId) {
-    throw new Error('SwiftAdapter: not yet implemented');
+  async getTransferStatus(railTransactionId) {
+    return {
+      railTransactionId,
+      status: 'PROCESSING',
+      metadata: {
+        rail: 'swift',
+        currentHop: 'Intermediary Correspondent Nostro',
+        isMock: true,
+      },
+    };
   }
 }

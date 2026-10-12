@@ -1,9 +1,12 @@
 /**
  * client/src/services/routeService.js
+ *
  * Multi-rail analysis, transparent scoring, and trade-off comparison.
+ * Connects to backend /api/routes/compare for authoritative route evaluation.
  */
 
 import { fxService } from './fxService.js';
+import { apiClient } from './apiClient.js';
 
 export const ROUTES = [
   {
@@ -12,7 +15,7 @@ export const ROUTES = [
     shortName: 'UPI-linked',
     subtext: 'Settles via UPI',
     feeAED: 12.00,
-    rateSpreadPct: 0.0058, // Applied rate: 23.98 (Mid: 24.12)
+    rateSpreadPct: 0.0058,
     appliedRate: 23.98,
     eta: '~10 min',
     etaSec: 600,
@@ -32,7 +35,7 @@ export const ROUTES = [
     shortName: 'IMPS',
     subtext: 'Limitation: bank cut-off hours apply',
     feeAED: 18.00,
-    rateSpreadPct: 0.0041, // Applied rate: 24.02 (Mid: 24.12)
+    rateSpreadPct: 0.0041,
     appliedRate: 24.02,
     eta: '30 min – 2 h',
     etaSec: 3600,
@@ -49,7 +52,7 @@ export const ROUTES = [
     shortName: 'Blockchain-settled',
     subtext: 'Limitation: max AED 10,000; confirmations currently slower than normal',
     feeAED: 9.00,
-    rateSpreadPct: 0.0087, // Applied rate: 23.91 (Mid: 24.12)
+    rateSpreadPct: 0.0087,
     appliedRate: 23.91,
     eta: '5 – 25 min',
     etaSec: 900,
@@ -57,7 +60,7 @@ export const ROUTES = [
     badge: 'DEGRADED',
     available: true,
     speedLabel: '5 – 25 min (degraded condition)',
-    pros: ['Low base transfer fee of AED 9.00', 'Cryptographic settlement receipt'],
+    pros: ['Low base transfer fee of AED 9.00', 'Cryptographic settlement receipt (Sepolia testnet simulated)'],
     cons: ['Degraded rail: confirmations currently slower than normal', 'Max AED 10,000 corridor limit'],
   },
   {
@@ -82,6 +85,17 @@ export const ROUTES = [
 export const routeService = {
   getRoutes() {
     return ROUTES;
+  },
+
+  /**
+   * Fetches route comparison from the backend API.
+   */
+  async fetchComparedRoutes({ fromAmount, fromCurrency = 'AED', recipientName = 'the recipient' }) {
+    return apiClient.post('/routes/compare', {
+      fromAmount: parseFloat(fromAmount),
+      fromCurrency,
+      recipientName,
+    });
   },
 
   analyzeRoutes(fromAmount, fromCurrency = 'AED') {
@@ -119,10 +133,7 @@ export const routeService = {
     const available = analyzedRoutes.filter(r => r.isAvailable);
     if (!available.length) return null;
 
-    // Recommended default is UPI partner rail for speed & reliability
     const recommended = available.find(r => r.id === 'upi_partner') || available[0];
-    
-    // Find the cheapest alternative to calculate explicit transparent trade-offs
     const cheapest = [...available].sort((a, b) => a.calc.totalCostAED - b.calc.totalCostAED)[0];
 
     const diffCostAED = (recommended.calc.totalCostAED - cheapest.calc.totalCostAED).toFixed(2);
@@ -150,4 +161,3 @@ export const routeService = {
     };
   },
 };
-

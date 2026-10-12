@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore.js';
 import { ATTENTION_ITEMS, HEADLINE_METRICS, ROUTE_DISTRIBUTION } from '../services/mockData.js';
@@ -7,6 +8,12 @@ import { fxService } from '../services/fxService.js';
 export default function Dashboard() {
   const navigate = useNavigate();
   const transactions = useStore(s => s.transactions);
+  const fetchTransactions = useStore(s => s.fetchTransactions);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
   const recent = transactions.slice(0, 5);
 
   return (
