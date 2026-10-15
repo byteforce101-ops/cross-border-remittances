@@ -1,5 +1,4561 @@
 [
   {
+    "id": "TXN-D-00977",
+    "createdAt": "2026-10-15T16:38:19.308Z",
+    "updatedAt": "2026-10-15T16:38:19.308Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1792082299308_zf2yke",
+    "providerReference": "NPCI-SIM-299308",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-15T16:38:19.308Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-15T16:38:19.308Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-15T16:38:19.308Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-299308).",
+        "timestamp": "2026-10-15T16:38:19.308Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00181",
+    "createdAt": "2026-10-15T16:38:19.286Z",
+    "updatedAt": "2026-10-15T16:38:19.287Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1792082299286_iym94f",
+    "providerReference": "NPCI-SIM-299286",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-15T16:38:19.286Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-15T16:38:19.286Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-15T16:38:19.286Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-299286).",
+        "timestamp": "2026-10-15T16:38:19.286Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-15T16:38:19.287Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00674",
+    "createdAt": "2026-10-15T16:38:19.279Z",
+    "updatedAt": "2026-10-15T16:38:19.283Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1792082299279_1kctax",
+    "providerReference": "NPCI-SIM-299279",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-15T16:38:19.279Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-15T16:38:19.279Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-15T16:38:19.279Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-299279).",
+        "timestamp": "2026-10-15T16:38:19.279Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-15T16:38:19.283Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00266",
+    "createdAt": "2026-10-15T16:38:19.263Z",
+    "updatedAt": "2026-10-15T16:38:19.263Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1792082299263_1g0e73",
+    "providerReference": "NPCI-SIM-299263",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-15T16:38:19.263Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-15T16:38:19.263Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-15T16:38:19.263Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-299263).",
+        "timestamp": "2026-10-15T16:38:19.263Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00504",
+    "createdAt": "2026-10-12T16:54:51.230Z",
+    "updatedAt": "2026-10-12T16:54:51.230Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Anita Sharma",
+    "recipientUpi": "anita.sharma@okaxis",
+    "recipientBank": "Axis Bank",
+    "recipientId": "rec-001",
+    "fromAmount": 5000,
+    "fromCurrency": "AED",
+    "toAmount": 119673.12,
+    "toCurrency": "INR",
+    "fxRate": 24.0211,
+    "midMarketRate": 24.12,
+    "transferFee": 18,
+    "fxFee": 20.43,
+    "totalFee": 38.43,
+    "route": "imps_bank",
+    "routeName": "IMPS via correspondent bank",
+    "routeShort": "IMPS",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 60,
+    "settlementTimeLabel": "30 min – 2 h",
+    "railTransactionId": "sim_bank_1791824091230_8ehfzh",
+    "providerReference": "CORRESP-BANK-SIM-091230",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (anita.sharma@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:54:51.230Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 5000.00 to Anita Sharma was registered.",
+        "timestamp": "2026-10-12T16:54:51.231Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected IMPS via correspondent bank at effective rate of ₹24.0211.",
+        "timestamp": "2026-10-12T16:54:51.231Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to IMPS / Correspondent Banking (Simulated) (CORRESP-BANK-SIM-091230).",
+        "timestamp": "2026-10-12T16:54:51.231Z",
+        "actor": "IMPS / Correspondent Banking (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00264",
+    "createdAt": "2026-10-12T16:39:24.996Z",
+    "updatedAt": "2026-10-12T16:39:24.996Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823164996_zo3yax",
+    "providerReference": "NPCI-SIM-164996",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:24.996Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T16:39:24.996Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:24.996Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-164996).",
+        "timestamp": "2026-10-12T16:39:24.996Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00204",
+    "createdAt": "2026-10-12T16:39:24.980Z",
+    "updatedAt": "2026-10-12T16:39:24.981Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823164980_44rvdp",
+    "providerReference": "NPCI-SIM-164980",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:24.979Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T16:39:24.980Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:24.980Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-164980).",
+        "timestamp": "2026-10-12T16:39:24.980Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T16:39:24.981Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00498",
+    "createdAt": "2026-10-12T16:39:24.958Z",
+    "updatedAt": "2026-10-12T16:39:24.958Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823164958_3l81ha",
+    "providerReference": "NPCI-SIM-164958",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:24.958Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T16:39:24.958Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:24.958Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-164958).",
+        "timestamp": "2026-10-12T16:39:24.958Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00825",
+    "createdAt": "2026-10-12T16:39:00.926Z",
+    "updatedAt": "2026-10-12T16:39:00.926Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823140926_m2i9vq",
+    "providerReference": "NPCI-SIM-140926",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:00.926Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T16:39:00.926Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:00.926Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-140926).",
+        "timestamp": "2026-10-12T16:39:00.926Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00331",
+    "createdAt": "2026-10-12T16:39:00.906Z",
+    "updatedAt": "2026-10-12T16:39:00.908Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823140906_d4ul2y",
+    "providerReference": "NPCI-SIM-140906",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:00.906Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T16:39:00.906Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:00.906Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-140906).",
+        "timestamp": "2026-10-12T16:39:00.906Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T16:39:00.908Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00395",
+    "createdAt": "2026-10-12T16:39:00.900Z",
+    "updatedAt": "2026-10-12T16:39:00.904Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823140900_lk6h1k",
+    "providerReference": "NPCI-SIM-140900",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:00.900Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T16:39:00.900Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:00.900Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-140900).",
+        "timestamp": "2026-10-12T16:39:00.900Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T16:39:00.903Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00769",
+    "createdAt": "2026-10-12T16:39:00.885Z",
+    "updatedAt": "2026-10-12T16:39:00.885Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823140885_nraens",
+    "providerReference": "NPCI-SIM-140885",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:00.885Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T16:39:00.885Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:00.885Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-140885).",
+        "timestamp": "2026-10-12T16:39:00.885Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00199",
+    "createdAt": "2026-10-12T15:28:14.801Z",
+    "updatedAt": "2026-10-12T15:28:14.801Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818894801_9uoeud",
+    "providerReference": "NPCI-SIM-894801",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:28:14.801Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:28:14.801Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:28:14.801Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-894801).",
+        "timestamp": "2026-10-12T15:28:14.801Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00916",
+    "createdAt": "2026-10-12T15:28:14.784Z",
+    "updatedAt": "2026-10-12T15:28:14.785Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818894783_x2pbm8",
+    "providerReference": "NPCI-SIM-894783",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:28:14.783Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:28:14.784Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:28:14.784Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-894783).",
+        "timestamp": "2026-10-12T15:28:14.784Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:28:14.785Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00542",
+    "createdAt": "2026-10-12T16:39:24.974Z",
+    "updatedAt": "2026-10-12T16:39:24.977Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791823164974_k9icc2",
+    "providerReference": "NPCI-SIM-164974",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T16:39:24.974Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T16:39:24.974Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T16:39:24.974Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-164974).",
+        "timestamp": "2026-10-12T16:39:24.974Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T16:39:24.977Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00661",
+    "createdAt": "2026-10-12T15:28:14.760Z",
+    "updatedAt": "2026-10-12T15:28:14.760Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818894760_jhrsz4",
+    "providerReference": "NPCI-SIM-894760",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:28:14.760Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:28:14.760Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:28:14.760Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-894760).",
+        "timestamp": "2026-10-12T15:28:14.760Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00639",
+    "createdAt": "2026-10-12T15:27:44.115Z",
+    "updatedAt": "2026-10-12T15:27:44.115Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818864115_zhy8bj",
+    "providerReference": "NPCI-SIM-864115",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:27:44.115Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:27:44.115Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:27:44.115Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-864115).",
+        "timestamp": "2026-10-12T15:27:44.115Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00216",
+    "createdAt": "2026-10-12T15:27:44.095Z",
+    "updatedAt": "2026-10-12T15:27:44.096Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818864095_joxbc2",
+    "providerReference": "NPCI-SIM-864095",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:27:44.095Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:27:44.095Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:27:44.095Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-864095).",
+        "timestamp": "2026-10-12T15:27:44.095Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:27:44.096Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00546",
+    "createdAt": "2026-10-12T15:27:44.090Z",
+    "updatedAt": "2026-10-12T15:27:44.093Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818864090_s4ojgu",
+    "providerReference": "NPCI-SIM-864090",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:27:44.090Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T15:27:44.090Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:27:44.090Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-864090).",
+        "timestamp": "2026-10-12T15:27:44.090Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T15:27:44.093Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00928",
+    "createdAt": "2026-10-12T15:27:44.076Z",
+    "updatedAt": "2026-10-12T15:27:44.076Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818864076_pkyyrk",
+    "providerReference": "NPCI-SIM-864076",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:27:44.076Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:27:44.076Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:27:44.076Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-864076).",
+        "timestamp": "2026-10-12T15:27:44.076Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00580",
+    "createdAt": "2026-10-12T15:21:55.109Z",
+    "updatedAt": "2026-10-12T15:21:55.109Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818515109_8b4mq9",
+    "providerReference": "NPCI-SIM-515109",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:21:55.109Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:21:55.109Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:21:55.109Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-515109).",
+        "timestamp": "2026-10-12T15:21:55.109Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00650",
+    "createdAt": "2026-10-12T15:21:55.091Z",
+    "updatedAt": "2026-10-12T15:21:55.092Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818515091_b5rr6g",
+    "providerReference": "NPCI-SIM-515091",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:21:55.091Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:21:55.091Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:21:55.091Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-515091).",
+        "timestamp": "2026-10-12T15:21:55.091Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:21:55.092Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00717",
+    "createdAt": "2026-10-12T15:21:55.085Z",
+    "updatedAt": "2026-10-12T15:21:55.088Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818515085_ofvkpn",
+    "providerReference": "NPCI-SIM-515085",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:21:55.085Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T15:21:55.085Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:21:55.085Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-515085).",
+        "timestamp": "2026-10-12T15:21:55.085Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T15:21:55.088Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00513",
+    "createdAt": "2026-10-12T15:21:55.072Z",
+    "updatedAt": "2026-10-12T15:21:55.072Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818515072_uh4595",
+    "providerReference": "NPCI-SIM-515072",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:21:55.072Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "isSimulated": true,
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:21:55.072Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:21:55.072Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-515072).",
+        "timestamp": "2026-10-12T15:21:55.072Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00587",
+    "createdAt": "2026-10-12T15:17:01.199Z",
+    "updatedAt": "2026-10-12T15:17:01.199Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818221199_a6s3m0",
+    "providerReference": "NPCI-SIM-221199",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:17:01.199Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:17:01.199Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:17:01.199Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-221199).",
+        "timestamp": "2026-10-12T15:17:01.199Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00556",
+    "createdAt": "2026-10-12T15:17:01.183Z",
+    "updatedAt": "2026-10-12T15:17:01.184Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818221183_vl30h0",
+    "providerReference": "NPCI-SIM-221183",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:17:01.183Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:17:01.183Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:17:01.183Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-221183).",
+        "timestamp": "2026-10-12T15:17:01.183Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:17:01.184Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00291",
+    "createdAt": "2026-10-12T15:17:01.178Z",
+    "updatedAt": "2026-10-12T15:17:01.181Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818221178_p3fthh",
+    "providerReference": "NPCI-SIM-221178",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:17:01.178Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T15:17:01.178Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:17:01.178Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-221178).",
+        "timestamp": "2026-10-12T15:17:01.178Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T15:17:01.181Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00778",
+    "createdAt": "2026-10-12T15:17:01.165Z",
+    "updatedAt": "2026-10-12T15:17:01.165Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818221165_11fucr",
+    "providerReference": "NPCI-SIM-221165",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:17:01.165Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:17:01.165Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:17:01.165Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-221165).",
+        "timestamp": "2026-10-12T15:17:01.165Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00668",
+    "createdAt": "2026-10-12T15:16:53.376Z",
+    "updatedAt": "2026-10-12T15:16:53.376Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818213376_2jbag3",
+    "providerReference": "NPCI-SIM-213376",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:16:53.376Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:16:53.376Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:16:53.376Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-213376).",
+        "timestamp": "2026-10-12T15:16:53.376Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00594",
+    "createdAt": "2026-10-12T15:16:53.357Z",
+    "updatedAt": "2026-10-12T15:16:53.358Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818213357_bl93l5",
+    "providerReference": "NPCI-SIM-213357",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:16:53.356Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:16:53.357Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:16:53.357Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-213357).",
+        "timestamp": "2026-10-12T15:16:53.357Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:16:53.358Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00281",
+    "createdAt": "2026-10-12T15:16:53.349Z",
+    "updatedAt": "2026-10-12T15:16:53.352Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818213349_qnvzgk",
+    "providerReference": "NPCI-SIM-213349",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:16:53.349Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T15:16:53.349Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:16:53.349Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-213349).",
+        "timestamp": "2026-10-12T15:16:53.349Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T15:16:53.352Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00832",
+    "createdAt": "2026-10-12T15:16:53.335Z",
+    "updatedAt": "2026-10-12T15:16:53.335Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818213335_czhfva",
+    "providerReference": "NPCI-SIM-213335",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:16:53.335Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:16:53.335Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:16:53.335Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-213335).",
+        "timestamp": "2026-10-12T15:16:53.335Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00560",
+    "createdAt": "2026-10-12T15:14:21.477Z",
+    "updatedAt": "2026-10-12T15:14:21.477Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818061477_fzrh22",
+    "providerReference": "NPCI-SIM-061477",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (persist@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Gift\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:14:21.477Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1250.00 to Persistence Tester was registered.",
+        "timestamp": "2026-10-12T15:14:21.477Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:14:21.477Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-061477).",
+        "timestamp": "2026-10-12T15:14:21.477Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00238",
+    "createdAt": "2026-10-12T15:14:21.459Z",
+    "updatedAt": "2026-10-12T15:14:21.460Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818061459_2dz6mw",
+    "providerReference": "NPCI-SIM-061459",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (rohan@okaxis) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:14:21.459Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Rohan was registered.",
+        "timestamp": "2026-10-12T15:14:21.459Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:14:21.459Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-061459).",
+        "timestamp": "2026-10-12T15:14:21.459Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Transitioned from PROCESSING to COMPLETED.",
+        "timestamp": "2026-10-12T15:14:21.460Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00133",
+    "createdAt": "2026-10-12T15:14:21.455Z",
+    "updatedAt": "2026-10-12T15:14:21.457Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Verified Beneficiary Bank",
+    "recipientId": null,
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818061455_z90ehh",
+    "providerReference": "NPCI-SIM-061455",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (pooja@okhdfc) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:14:21.455Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 1000.00 to Pooja was registered.",
+        "timestamp": "2026-10-12T15:14:21.455Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:14:21.455Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-061455).",
+        "timestamp": "2026-10-12T15:14:21.455Z",
+        "actor": "NPCI / UPI (Simulated)"
+      },
+      {
+        "status": "COMPLETED",
+        "title": "Status updated to COMPLETED",
+        "description": "Payment successfully credited to recipient account via UPI partner switch.",
+        "timestamp": "2026-10-12T15:14:21.457Z",
+        "actor": "Orchestrator Ops"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-00154",
+    "createdAt": "2026-10-12T15:14:21.441Z",
+    "updatedAt": "2026-10-12T15:14:21.441Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "recipientId": null,
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "route": "upi_partner",
+    "routeName": "UPI-linked partner rail",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 10,
+    "settlementTimeLabel": "~10 min",
+    "railTransactionId": "sim_npci_1791818061441_d36vrb",
+    "providerReference": "NPCI-SIM-061441",
+    "blockchainTxHash": null,
+    "isBlockchain": false,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "riskAssessment": {
+      "score": 25,
+      "level": "LOW",
+      "isBlocked": false,
+      "requiresManualReview": false,
+      "signals": [
+        {
+          "rule": "SANCTIONS_CLEARED",
+          "category": "SANCTIONS",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Beneficiary and sender cleared against simulated OFAC / UN / RBI sanctions datasets.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "STANDARD_VALUE",
+          "category": "AMOUNT_THRESHOLD",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Transfer amount is within normal retail personal remittance limits.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "VALID_UPI_IDENTIFIER",
+          "category": "SYNTAX",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Recipient VPA (vikram.m@oksbi) complies with NPCI UPI address structure.",
+          "actionRequired": "None"
+        },
+        {
+          "rule": "NON_STANDARD_CORRIDOR",
+          "category": "CORRIDOR",
+          "flag": true,
+          "severity": "MEDIUM",
+          "text": "Corridor AE_INR is unrated or non-standard in demo environment.",
+          "actionRequired": "Require enhanced due diligence (EDD) for non-bilateral corridor."
+        },
+        {
+          "rule": "RETAIL_PURPOSE_VERIFIED",
+          "category": "PURPOSE",
+          "flag": false,
+          "severity": "LOW",
+          "text": "Stated purpose \"Family support\" corresponds to permissible personal maintenance (FEMA Category).",
+          "actionRequired": "None"
+        }
+      ],
+      "corridor": "AE_INR",
+      "evaluatedAt": "2026-10-12T15:14:21.441Z",
+      "provenance": "SIMULATED_DETERMINISTIC",
+      "disclaimer": "Deterministic simulated risk evaluation for hackathon prototype. Not production AML/KYC."
+    },
+    "provenance": "CONFIGURED_ESTIMATE",
+    "isSimulated": true,
+    "note": "Simulated transfer created. No money has moved.",
+    "timeline": [
+      {
+        "status": "PENDING",
+        "title": "Transfer initiated",
+        "description": "Transfer of AED 2500.00 to Vikram Malhotra was registered.",
+        "timestamp": "2026-10-12T15:14:21.441Z",
+        "actor": "Sender"
+      },
+      {
+        "status": "ROUTE_SELECTED",
+        "title": "Route selected & rate locked",
+        "description": "Orchestrator selected UPI-linked partner rail at effective rate of ₹23.9801.",
+        "timestamp": "2026-10-12T15:14:21.441Z",
+        "actor": "Orchestration Engine"
+      },
+      {
+        "status": "PROCESSING",
+        "title": "Dispatched to payment adapter",
+        "description": "Handed over to NPCI / UPI (Simulated) (NPCI-SIM-061441).",
+        "timestamp": "2026-10-12T15:14:21.441Z",
+        "actor": "NPCI / UPI (Simulated)"
+      }
+    ]
+  },
+  {
+    "id": "TXN-D-0085",
+    "date": "2026-10-12T11:30:55.540Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Persistence Tester",
+    "recipientUpi": "persist@okhdfc",
+    "recipientBank": "Axis Bank",
+    "fromAmount": 1250,
+    "fromCurrency": "AED",
+    "toAmount": 29687.36,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 7.18,
+    "totalFee": 19.18,
+    "feeCurrency": "AED",
+    "route": "upi_partner",
+    "routeName": "NPCI / UPI (Simulated)",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Gift",
+    "settlementTime": null,
+    "settlementTimeLabel": "1 min (est)",
+    "railTransactionId": "sim_npci_1791804655540_9etw8c",
+    "providerReference": "NPCI-SIM-655540",
+    "blockchainTxHash": null,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "requiresManualReview": false,
+    "isSimulated": true,
+    "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+    "timeline": [
+      {
+        "title": "Transfer created",
+        "time": "05:00 pm",
+        "detail": "Quote locked: 1 AED = ₹23.9801",
+        "status": "done"
+      },
+      {
+        "title": "Pre-flight checks passed (simulated)",
+        "time": "05:00 pm",
+        "detail": "Risk Score: 25/100 (LOW)",
+        "status": "done"
+      },
+      {
+        "title": "Routed to NPCI / UPI (Simulated)",
+        "time": "Now",
+        "detail": "Provider Ref: NPCI-SIM-655540",
+        "status": "now"
+      },
+      {
+        "title": "Settlement & delivery to recipient",
+        "time": "Next",
+        "detail": "Estimated delivery to beneficiary account via persist@okhdfc",
+        "status": "next"
+      }
+    ],
+    "metadata": {
+      "rail": "npci",
+      "mode": "SIMULATION",
+      "provider": "NPCI UPI Partner Switch",
+      "recipientVpa": "persist@okhdfc",
+      "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+      "isMock": true,
+      "initiatedAt": "2026-10-12T11:30:55.540Z"
+    },
+    "createdAt": "2026-10-12T11:30:55.540Z",
+    "updatedAt": "2026-10-12T11:30:55.540Z"
+  },
+  {
+    "id": "TXN-D-0084",
+    "date": "2026-10-12T11:30:55.520Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Rohan",
+    "recipientUpi": "rohan@okaxis",
+    "recipientBank": "Axis Bank",
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "feeCurrency": "AED",
+    "route": "upi_partner",
+    "routeName": "NPCI / UPI (Simulated)",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 120,
+    "settlementTimeLabel": "120s",
+    "railTransactionId": "sim_npci_1791804655520_wxzfia",
+    "providerReference": "NPCI-SIM-655520",
+    "blockchainTxHash": null,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "requiresManualReview": false,
+    "isSimulated": true,
+    "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+    "timeline": [
+      {
+        "title": "Transfer created",
+        "time": "05:00 pm",
+        "detail": "Quote locked: 1 AED = ₹23.9801",
+        "status": "done"
+      },
+      {
+        "title": "Pre-flight checks passed (simulated)",
+        "time": "05:00 pm",
+        "detail": "Risk Score: 25/100 (LOW)",
+        "status": "done"
+      },
+      {
+        "title": "Routed to NPCI / UPI (Simulated)",
+        "time": "Now",
+        "detail": "Provider Ref: NPCI-SIM-655520",
+        "status": "now"
+      },
+      {
+        "title": "Settlement & delivery to recipient",
+        "time": "Next",
+        "detail": "Estimated delivery to beneficiary account via rohan@okaxis",
+        "status": "next"
+      },
+      {
+        "title": "Settlement confirmed (simulated)",
+        "time": "05:00 pm",
+        "detail": "₹23,692.34 credited to recipient account",
+        "status": "done"
+      }
+    ],
+    "metadata": {
+      "rail": "npci",
+      "mode": "SIMULATION",
+      "provider": "NPCI UPI Partner Switch",
+      "recipientVpa": "rohan@okaxis",
+      "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+      "isMock": true,
+      "initiatedAt": "2026-10-12T11:30:55.520Z"
+    },
+    "createdAt": "2026-10-12T11:30:55.520Z",
+    "updatedAt": "2026-10-12T11:30:55.521Z"
+  },
+  {
+    "id": "TXN-D-0083",
+    "date": "2026-10-12T11:30:55.512Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Pooja",
+    "recipientUpi": "pooja@okhdfc",
+    "recipientBank": "Axis Bank",
+    "fromAmount": 1000,
+    "fromCurrency": "AED",
+    "toAmount": 23692.34,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 5.73,
+    "totalFee": 17.73,
+    "feeCurrency": "AED",
+    "route": "upi_partner",
+    "routeName": "NPCI / UPI (Simulated)",
+    "routeShort": "UPI-linked",
+    "status": "COMPLETED",
+    "statusLabel": "COMPLETED (simulated)",
+    "purpose": "Family support",
+    "settlementTime": 120,
+    "settlementTimeLabel": "120s",
+    "railTransactionId": "sim_npci_1791804655512_4kfssq",
+    "providerReference": "NPCI-SIM-655512",
+    "blockchainTxHash": null,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "requiresManualReview": false,
+    "isSimulated": true,
+    "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+    "timeline": [
+      {
+        "title": "Transfer created",
+        "time": "05:00 pm",
+        "detail": "Quote locked: 1 AED = ₹23.9801",
+        "status": "done"
+      },
+      {
+        "title": "Pre-flight checks passed (simulated)",
+        "time": "05:00 pm",
+        "detail": "Risk Score: 25/100 (LOW)",
+        "status": "done"
+      },
+      {
+        "title": "Routed to NPCI / UPI (Simulated)",
+        "time": "Now",
+        "detail": "Provider Ref: NPCI-SIM-655512",
+        "status": "now"
+      },
+      {
+        "title": "Settlement & delivery to recipient",
+        "time": "Next",
+        "detail": "Estimated delivery to beneficiary account via pooja@okhdfc",
+        "status": "next"
+      },
+      {
+        "title": "Settlement confirmed (simulated)",
+        "time": "05:00 pm",
+        "detail": "₹23,692.34 credited to recipient account",
+        "status": "done"
+      }
+    ],
+    "metadata": {
+      "rail": "npci",
+      "mode": "SIMULATION",
+      "provider": "NPCI UPI Partner Switch",
+      "recipientVpa": "pooja@okhdfc",
+      "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+      "isMock": true,
+      "initiatedAt": "2026-10-12T11:30:55.512Z"
+    },
+    "createdAt": "2026-10-12T11:30:55.512Z",
+    "updatedAt": "2026-10-12T11:30:55.518Z",
+    "statusReason": "Payment successfully credited to recipient account via UPI partner switch."
+  },
+  {
+    "id": "TXN-D-0082",
+    "date": "2026-10-12T11:30:55.474Z",
+    "senderName": "Arjun Patel",
+    "senderCountry": "United Arab Emirates",
+    "senderCountryCode": "AE",
+    "senderCurrency": "AED",
+    "recipientName": "Vikram Malhotra",
+    "recipientUpi": "vikram.m@oksbi",
+    "recipientBank": "State Bank of India",
+    "fromAmount": 2500,
+    "fromCurrency": "AED",
+    "toAmount": 59662.49,
+    "toCurrency": "INR",
+    "fxRate": 23.9801,
+    "midMarketRate": 24.12,
+    "transferFee": 12,
+    "fxFee": 14.43,
+    "totalFee": 26.43,
+    "feeCurrency": "AED",
+    "route": "upi_partner",
+    "routeName": "NPCI / UPI (Simulated)",
+    "routeShort": "UPI-linked",
+    "status": "PROCESSING",
+    "statusLabel": "Processing (simulated)",
+    "purpose": "Family support",
+    "settlementTime": null,
+    "settlementTimeLabel": "1 min (est)",
+    "railTransactionId": "sim_npci_1791804655474_bf5bcx",
+    "providerReference": "NPCI-SIM-655474",
+    "blockchainTxHash": null,
+    "riskScore": 25,
+    "riskLevel": "LOW",
+    "requiresManualReview": false,
+    "isSimulated": true,
+    "note": "Simulated transfer initiated via NPCI / UPI (Simulated). Safe hackathon prototype.",
+    "timeline": [
+      {
+        "title": "Transfer created",
+        "time": "05:00 pm",
+        "detail": "Quote locked: 1 AED = ₹23.9801",
+        "status": "done"
+      },
+      {
+        "title": "Pre-flight checks passed (simulated)",
+        "time": "05:00 pm",
+        "detail": "Risk Score: 25/100 (LOW)",
+        "status": "done"
+      },
+      {
+        "title": "Routed to NPCI / UPI (Simulated)",
+        "time": "Now",
+        "detail": "Provider Ref: NPCI-SIM-655474",
+        "status": "now"
+      },
+      {
+        "title": "Settlement & delivery to recipient",
+        "time": "Next",
+        "detail": "Estimated delivery to State Bank of India via vikram.m@oksbi",
+        "status": "next"
+      }
+    ],
+    "metadata": {
+      "rail": "npci",
+      "mode": "SIMULATION",
+      "provider": "NPCI UPI Partner Switch",
+      "recipientVpa": "vikram.m@oksbi",
+      "clearingNetwork": "UPI (National Payments Corporation of India Mock)",
+      "isMock": true,
+      "initiatedAt": "2026-10-12T11:30:55.474Z"
+    },
+    "createdAt": "2026-10-12T11:30:55.474Z",
+    "updatedAt": "2026-10-12T11:30:55.474Z"
+  },
+  {
     "id": "TXN-D-0081",
     "date": "2026-10-12T09:25:21.769Z",
     "senderName": "Arjun Patel",

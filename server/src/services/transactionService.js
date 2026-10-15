@@ -3,7 +3,8 @@
  *
  * Server-side transaction orchestration service.
  * Handles validation, server-side recalculation of quotes and fees,
- * pre-execution risk checks, adapter dispatch, and controlled status lifecycle.
+ * pre-execution quote expiry checks, risk enforcement, adapter dispatch,
+ * and controlled status lifecycle transitions.
  */
 
 import { transactionRepository } from '../repositories/TransactionRepository.js';
@@ -13,8 +14,9 @@ import { fxService } from './fxService.js';
 import { riskService } from './riskService.js';
 import { getAdapter } from '../../../integrations/factory.js';
 import { TRANSACTION_STATUS, TERMINAL_STATUSES } from '../../../shared/constants/transactionStatus.js';
+import { RAIL_CATALOG } from '../config/orchestrationConfig.js';
 
-// State transition graph
+// Controlled State Machine Transition Graph
 const VALID_TRANSITIONS = {
   [TRANSACTION_STATUS.PENDING]: [
     TRANSACTION_STATUS.COMPLIANCE_REVIEW,
@@ -50,7 +52,7 @@ const VALID_TRANSITIONS = {
 
 export class TransactionService {
   /**
-   * Creates a transaction with idempotency protection and server-side verification.
+   * Creates a transaction with idempotency protection and pre-flight revalidation.
    */
   async createTransaction(payload, idempotencyKey = null) {
     // 1. Idempotency check: if previously submitted with this key, return saved result
@@ -71,9 +73,18 @@ export class TransactionService {
       senderName = 'Arjun Patel',
       senderCountry = 'United Arab Emirates',
       senderCountryCode = 'AE',
+      quoteExpiresAt = null,
     } = payload;
 
-    // 2. Resolve recipient
+    // 2. Pre-flight quote expiration check
+    if (quoteExpiresAt) {
+      const expiry = new Date(quoteExpiresAt).getTime();
+      if (!isNaN(expiry) && expiry < Date.now()) {
+        throw new Error('Submitted quote has expired. Please refresh the quote before confirming transfer.');
+      }
+    }
+
+    // 3. Resolve recipient
     let resolvedRecipient = recipient;
     if (recipientId && !resolvedRecipient) {
       resolvedRecipient = await recipientRepository.findById(recipientId);
@@ -85,7 +96,7 @@ export class TransactionService {
       throw new Error('Recipient must have a valid name and UPI address.');
     }
 
-    // 3. Validate and recalculate FX quote server-side (server is source of truth!)
+    // 4. Validate and recalculate FX quote server-side (server is source of truth!)
     const numericAmount = parseFloat(amount);
     if (isNaN(numericAmount) || numericAmount <= 0) {
       throw new Error('Amount must be a positive number.');
@@ -97,89 +108,73 @@ export class TransactionService {
       routeId,
     });
 
-    // 4. Resolve payment adapter & verify rail availability
-    let adapterKey = 'npci';
-    if (routeId === 'imps_bank' || routeId === 'bank') adapterKey = 'bank';
-    else if (routeId === 'blockchain_partner' || routeId === 'blockchain') adapterKey = 'blockchain';
-    else if (routeId === 'swift') adapterKey = 'swift';
-    else if (routeId === 'direct_npci') adapterKey = 'direct_npci';
+    // 5. Pre-flight Rail Availability check
+    const railDef = RAIL_CATALOG.find(r => r.id === routeId);
+    if (!railDef || !railDef.isAvailable) {
+      throw new Error(`The selected payment rail "${railDef ? railDef.name : routeId}" is unavailable for execution in this environment.`);
+    }
 
-    const adapter = getAdapter(adapterKey);
+    const adapter = getAdapter(railDef.adapterKey);
     const available = await adapter.isAvailable();
     if (!available) {
       throw new Error(`The selected payment rail "${adapter.name}" is unavailable for execution in this environment.`);
     }
 
-    // 5. Pre-execution Risk Analysis (server-side)
+    // 6. Pre-execution Risk Analysis (server-side)
     const riskAssessment = riskService.evaluate({
       fromAmount: numericAmount,
       fromCurrency,
       recipientUpi: resolvedRecipient.upiId,
       recipientName: resolvedRecipient.name,
+      senderName,
       purpose,
       corridor: `${senderCountryCode}_INR`,
     });
 
-    // Initial status determined by risk
-    let initialStatus = TRANSACTION_STATUS.PROCESSING;
-    let initialStatusLabel = 'Processing (simulated)';
-    if (riskAssessment.requiresManualReview) {
-      initialStatus = TRANSACTION_STATUS.COMPLIANCE_REVIEW;
-      initialStatusLabel = 'Under Compliance Review (simulated)';
+    if (riskAssessment.isBlocked) {
+      throw new Error(`Transaction blocked by risk & sanctions compliance engine: ${riskAssessment.level} risk detected.`);
     }
 
-    // 6. Simulate adapter initiation
-    const transferInitiation = await adapter.initiateTransfer({
-      amount: numericAmount,
-      fromCurrency,
-      recipient: resolvedRecipient,
-      purpose,
-      recipientUpi: resolvedRecipient.upiId,
-      recipientBank: resolvedRecipient.bankName,
-    });
+    // 7. Generate transaction identifiers
+    const timestamp = Date.now();
+    const sequenceNum = Math.floor(Math.random() * 900) + 100;
+    const txId = `TXN-D-00${sequenceNum}`;
 
-    // 7. Generate Transaction ID and Build Record
-    const txId = await transactionRepository.getNextId();
-    const now = new Date();
-    const timeFormatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // 8. Execute adapter transfer
+    let adapterResult = null;
+    try {
+      adapterResult = await adapter.initiateTransfer({
+        transactionId: txId,
+        amount: quote.fromAmount,
+        currency: quote.fromCurrency,
+        recipient: resolvedRecipient,
+      });
+    } catch (err) {
+      console.warn(`[TransactionService] Adapter execution failed: ${err.message}`);
+      adapterResult = {
+        railTransactionId: `sim_fail_${timestamp}`,
+        status: TRANSACTION_STATUS.FAILED,
+        metadata: { error: err.message },
+      };
+    }
 
-    const initialTimeline = [
-      {
-        title: 'Transfer created',
-        time: timeFormatted,
-        detail: `Quote locked: 1 ${fromCurrency} = ₹${quote.appliedRate}`,
-        status: 'done',
-      },
-      {
-        title: 'Pre-flight checks passed (simulated)',
-        time: timeFormatted,
-        detail: `Risk Score: ${riskAssessment.score}/100 (${riskAssessment.level})`,
-        status: 'done',
-      },
-      {
-        title: `Routed to ${adapter.name}`,
-        time: 'Now',
-        detail: `Provider Ref: ${transferInitiation.providerReference}`,
-        status: initialStatus === TRANSACTION_STATUS.PROCESSING ? 'now' : 'done',
-      },
-      {
-        title: 'Settlement & delivery to recipient',
-        time: 'Next',
-        detail: `Estimated delivery to ${resolvedRecipient.bankName || 'beneficiary account'} via ${resolvedRecipient.upiId}`,
-        status: 'next',
-      },
-    ];
+    const initialStatus = riskAssessment.requiresManualReview
+      ? TRANSACTION_STATUS.COMPLIANCE_REVIEW
+      : adapterResult?.status || TRANSACTION_STATUS.PROCESSING;
 
-    const transactionRecord = {
+    // 9. Build comprehensive transaction record
+    const transaction = {
       id: txId,
-      date: now.toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       senderName,
       senderCountry,
       senderCountryCode,
-      senderCurrency: fromCurrency,
+      senderCurrency: quote.fromCurrency,
       recipientName: resolvedRecipient.name,
       recipientUpi: resolvedRecipient.upiId,
-      recipientBank: resolvedRecipient.bankName || 'Axis Bank',
+      recipientBank: resolvedRecipient.bankName || 'Verified Beneficiary Bank',
+      recipientId: resolvedRecipient.id || null,
       fromAmount: quote.fromAmount,
       fromCurrency: quote.fromCurrency,
       toAmount: quote.recipientINR,
@@ -189,55 +184,64 @@ export class TransactionService {
       transferFee: quote.feeAmount,
       fxFee: quote.fxCost,
       totalFee: quote.totalCost,
-      feeCurrency: quote.feeCurrency,
       route: routeId,
-      routeName: adapter.name,
-      routeShort: routeId === 'upi_partner' ? 'UPI-linked' : routeId === 'imps_bank' ? 'IMPS' : routeId === 'blockchain_partner' ? 'Blockchain' : 'Direct',
+      routeName: quote.routeName,
+      routeShort: railDef.shortName,
       status: initialStatus,
-      statusLabel: initialStatusLabel,
+      statusLabel: initialStatus === TRANSACTION_STATUS.COMPLIANCE_REVIEW ? 'Pending Review (simulated)' : 'Processing (simulated)',
       purpose,
-      settlementTime: null,
-      settlementTimeLabel: `${Math.round(transferInitiation.estimatedSettlementSeconds / 60)} min (est)`,
-      // Clear simulated provider reference, never fake genuine mainnet hashes
-      railTransactionId: transferInitiation.railTransactionId,
-      providerReference: transferInitiation.providerReference,
-      blockchainTxHash: routeId.includes('blockchain') ? transferInitiation.railTransactionId : null,
+      settlementTime: railDef.etaMinutes,
+      settlementTimeLabel: railDef.typicalSpeedLabel,
+      railTransactionId: adapterResult?.railTransactionId || null,
+      providerReference: adapterResult?.providerReference || null,
+      blockchainTxHash: adapterResult?.metadata?.txHash || null,
+      isBlockchain: routeId === 'blockchain_partner' || routeId === 'blockchain',
       riskScore: riskAssessment.score,
       riskLevel: riskAssessment.level,
-      requiresManualReview: riskAssessment.requiresManualReview,
+      riskAssessment,
+      provenance: railDef.provenance,
       isSimulated: true,
-      note: `Simulated transfer initiated via ${adapter.name}. Safe hackathon prototype.`,
-      timeline: initialTimeline,
-      metadata: transferInitiation.metadata,
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString(),
+      note: 'Simulated transfer created. No money has moved.',
+      timeline: [
+        {
+          status: TRANSACTION_STATUS.PENDING,
+          title: 'Transfer initiated',
+          description: `Transfer of ${quote.fromCurrency} ${quote.fromAmount.toFixed(2)} to ${resolvedRecipient.name} was registered.`,
+          timestamp: new Date().toISOString(),
+          actor: 'Sender',
+        },
+        {
+          status: TRANSACTION_STATUS.ROUTE_SELECTED,
+          title: 'Route selected & rate locked',
+          description: `Orchestrator selected ${quote.routeName} at effective rate of ₹${quote.appliedRate.toFixed(4)}.`,
+          timestamp: new Date().toISOString(),
+          actor: 'Orchestration Engine',
+        },
+        {
+          status: initialStatus,
+          title: initialStatus === TRANSACTION_STATUS.COMPLIANCE_REVIEW ? 'Queued for compliance review' : 'Dispatched to payment adapter',
+          description: initialStatus === TRANSACTION_STATUS.COMPLIANCE_REVIEW
+            ? `Risk score ${riskAssessment.score} flagged for secondary review.`
+            : `Handed over to ${adapter.name} (${adapterResult?.providerReference || 'simulated reference'}).`,
+          timestamp: new Date().toISOString(),
+          actor: adapter.name,
+        },
+      ],
     };
 
-    // 8. Persist to repository
-    const saved = await transactionRepository.create(transactionRecord);
+    // 10. Persist to storage
+    const createdTx = await transactionRepository.create(transaction);
 
-    // 9. Update recipient transfer totals if existing recipient
-    if (resolvedRecipient.id) {
-      const rec = await recipientRepository.findById(resolvedRecipient.id);
-      if (rec) {
-        await recipientRepository.update(resolvedRecipient.id, {
-          totalTransfers: (rec.totalTransfers || 0) + 1,
-          totalVolumeINR: (rec.totalVolumeINR || 0) + quote.recipientINR,
-          lastTransfer: 'Just now',
-        });
-      }
-    }
-
-    // 10. Cache in idempotency repository
+    // 11. Cache in idempotency repository if key was provided
     if (idempotencyKey) {
-      await idempotencyRepository.save(idempotencyKey, saved);
+      await idempotencyRepository.save(idempotencyKey, createdTx);
     }
 
-    return saved;
+    return createdTx;
   }
 
-  async getTransactions(filters = {}) {
-    return transactionRepository.findAll(filters);
+  async getAllTransactions(query = {}) {
+    return transactionRepository.findAll(query);
   }
 
   async getTransactionById(id) {
@@ -249,45 +253,38 @@ export class TransactionService {
   }
 
   /**
-   * Controlled status transition validation
+   * Updates transaction status adhering strictly to state machine transitions.
    */
-  async updateStatus(id, newStatus, reason = null) {
+  async updateStatus(id, newStatus, reason = '') {
     const tx = await this.getTransactionById(id);
-    const currentStatus = tx.status;
 
-    if (currentStatus === newStatus) {
-      return tx; // No-op
+    // Reject transitions from terminal states
+    if (TERMINAL_STATUSES.includes(tx.status)) {
+      throw new Error(`Invalid status transition from "${tx.status}" to "${newStatus}". Allowed next statuses: None (Terminal state)`);
     }
 
-    const allowed = VALID_TRANSITIONS[currentStatus] || [];
+    const allowed = VALID_TRANSITIONS[tx.status] || [];
     if (!allowed.includes(newStatus)) {
-      throw new Error(`Invalid status transition from "${currentStatus}" to "${newStatus}". Allowed next statuses: ${allowed.join(', ') || 'None (Terminal state)'}`);
+      throw new Error(`Invalid status transition from "${tx.status}" to "${newStatus}". Allowed: ${allowed.join(', ') || 'None'}`);
     }
 
-    const updates = {
+    const updatedTimeline = [
+      ...(tx.timeline || []),
+      {
+        status: newStatus,
+        title: `Status updated to ${newStatus}`,
+        description: reason || `Transitioned from ${tx.status} to ${newStatus}.`,
+        timestamp: new Date().toISOString(),
+        actor: 'Orchestrator Ops',
+      },
+    ];
+
+    return transactionRepository.update(id, {
       status: newStatus,
-      statusLabel: `${newStatus.replace(/_/g, ' ')} (simulated)`,
-    };
-
-    if (newStatus === TRANSACTION_STATUS.COMPLETED) {
-      updates.settlementTime = tx.route.includes('npci') ? 30 : tx.route.includes('blockchain') ? 15 : 120;
-      updates.settlementTimeLabel = `${updates.settlementTime}s`;
-      // Update timeline
-      const updatedTimeline = [...(tx.timeline || [])];
-      updatedTimeline.push({
-        title: 'Settlement confirmed (simulated)',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        detail: `₹${tx.toAmount.toLocaleString()} credited to recipient account`,
-        status: 'done',
-      });
-      updates.timeline = updatedTimeline;
-    }
-
-    if (reason) {
-      updates.statusReason = reason;
-    }
-
-    return transactionRepository.update(id, updates);
+      statusLabel: `${newStatus} (simulated)`,
+      timeline: updatedTimeline,
+      updatedAt: new Date().toISOString(),
+    });
   }
 }
 

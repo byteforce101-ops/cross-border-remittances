@@ -20,10 +20,12 @@ router.get('/currencies', (_req, res) => {
   });
 });
 
-// POST /api/fx/quote
-router.post('/quote', (req, res, next) => {
+async function handleQuoteRequest(req, res, next) {
   try {
-    const { fromAmount, fromCurrency, routeId } = req.body;
+    const fromAmount = req.method === 'GET' ? req.query.fromAmount || req.query.amount : req.body?.fromAmount;
+    const fromCurrency = req.method === 'GET' ? req.query.fromCurrency || req.query.currency : req.body?.fromCurrency;
+    const routeId = req.method === 'GET' ? req.query.routeId : req.body?.routeId;
+
     if (!fromAmount) {
       return res.status(400).json({
         success: false,
@@ -31,19 +33,48 @@ router.post('/quote', (req, res, next) => {
       });
     }
 
+    const code = (fromCurrency || 'AED').toUpperCase();
+    console.log(`[FX Route] Incoming quote request for ${fromAmount} ${code} via route ${routeId || 'default'}`);
+
+    // Resolve rate with live provenance
+    const resolvedRate = await fxService.resolveRateWithProvenance(code);
+    console.log(`[FX Route] Resolved rate from provider: ${resolvedRate.provider} (${resolvedRate.provenance}), rate: ${resolvedRate.rate}, isLive: ${resolvedRate.isLive}, isCached: ${resolvedRate.isCached}`);
+
     const quote = fxService.calculateQuote({
       fromAmount,
-      fromCurrency,
-      routeId,
+      fromCurrency: code,
+      routeId: routeId || 'upi_partner',
+      liveReferenceRate: resolvedRate.rate,
+      rateProvenance: resolvedRate.provenance,
+      rateProviderName: resolvedRate.provider,
     });
 
     res.json({
       success: true,
-      data: quote,
+      data: {
+        ...quote,
+        liveResolution: {
+          provider: resolvedRate.provider,
+          providerId: resolvedRate.providerId,
+          provenance: resolvedRate.provenance,
+          rate: resolvedRate.rate,
+          timestamp: resolvedRate.timestamp,
+          isLive: Boolean(resolvedRate.isLive),
+          isCached: Boolean(resolvedRate.isCached),
+          isStale: Boolean(resolvedRate.isStale),
+          staleWarning: resolvedRate.staleWarning || null,
+        },
+      },
     });
   } catch (err) {
     next(err);
   }
-});
+}
+
+// GET /api/fx/quote
+router.get('/quote', handleQuoteRequest);
+
+// POST /api/fx/quote
+router.post('/quote', handleQuoteRequest);
 
 export default router;

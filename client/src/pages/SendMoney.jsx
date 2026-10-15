@@ -393,10 +393,35 @@ export default function SendMoney() {
             <div className="space-y-4">
               <h2 className="font-serif text-xl text-ink font-semibold">3. Compare routes</h2>
 
+              {/* Strategy Selector */}
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white border border-rule rounded">
+                <span className="text-xs text-mute font-medium">Routing Priority:</span>
+                <div className="flex gap-2">
+                  {['DEFAULT', 'CHEAPEST', 'FASTEST'].map((strat) => (
+                    <button
+                      key={strat}
+                      type="button"
+                      className={`text-xs px-2.5 py-1 rounded border transition-colors ${
+                        (recommendation?.strategy || 'DEFAULT') === strat
+                          ? 'bg-ink text-white border-ink'
+                          : 'bg-canvas text-mute border-rule hover:text-ink'
+                      }`}
+                    >
+                      {strat === 'DEFAULT' ? 'Balanced' : strat === 'CHEAPEST' ? 'Lowest Cost' : 'Fastest SLA'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Recommendation Callout */}
               {recommendation && (
                 <div className="bg-accsoft border border-acc rounded p-4 mb-4">
-                  <p className="font-semibold text-ink">{recommendation.title}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-semibold text-ink">{recommendation.title}</p>
+                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/80 text-acc border border-acc/30">
+                      LIVE ORCHESTRATION
+                    </span>
+                  </div>
                   <ul className="list-disc pl-5 text-sm mt-2 space-y-1 text-ink">
                     {recommendation.bullets.map((b, idx) => (
                       <li key={idx} dangerouslySetInnerHTML={{ __html: b.replace(/(Costs AED [\d.]+|[\d.]+ pt|\b\d+ minutes|\b₹[\d.]+)/g, '<strong>$1</strong>') }} />
@@ -419,6 +444,7 @@ export default function SendMoney() {
                               ✕ Not available
                             </span>
                             <p className="font-semibold text-mute">{route.name}</p>
+                            <span className="text-[10px] font-mono text-mute block mt-1">PROVENANCE: {route.provenance || 'UNAVAILABLE'}</span>
                           </div>
                           <p className="text-sm text-mute self-center">
                             {route.unavailableReason}
@@ -453,6 +479,9 @@ export default function SendMoney() {
                           {isDegraded && <span className="chip bg-warnsoft text-warn mb-1">▲ Degraded</span>}
                           <p className="font-semibold text-ink">{route.name}</p>
                           <p className="text-sm text-mute">{route.subtext}</p>
+                          <span className="text-[10px] font-mono text-mute block mt-1">
+                            PROVENANCE: {route.provenance || 'CONFIGURED_ESTIMATE'}
+                          </span>
                         </div>
                         <div>
                           <p className="text-xs text-mute">Recipient gets</p>

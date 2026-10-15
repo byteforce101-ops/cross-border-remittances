@@ -582,3 +582,214 @@ describe('9. Persistence Engine Survival', () => {
     assert.equal(retrieved.recipientName, 'Persistence Tester');
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 10. Intelligent Multi-Criteria Route Optimization Engine
+// ─────────────────────────────────────────────────────────────────────────────
+describe('10. Intelligent Route Optimization Engine & Normalized Scoring', () => {
+  it('Evaluates normalized scores and adapts recommendation based on routing strategy', async () => {
+    // Default strategy (balanced cost, speed, reliability)
+    const defaultRes = await routeService.compareRoutes({
+      fromAmount: 5000,
+      fromCurrency: 'AED',
+      recipientName: 'Anita Sharma',
+      strategy: 'DEFAULT',
+    });
+    assert.ok(defaultRes.recommendedRouteId);
+    assert.equal(defaultRes.recommendedRouteId, 'upi_partner');
+
+    // Cheapest strategy (heavily weights lowest total cost)
+    const cheapRes = await routeService.compareRoutes({
+      fromAmount: 5000,
+      fromCurrency: 'AED',
+      recipientName: 'Anita Sharma',
+      strategy: 'CHEAPEST',
+    });
+    assert.ok(cheapRes.recommendedRouteId);
+    assert.equal(cheapRes.recommendedRouteId, 'imps_bank'); // IMPS has lower FX spread
+    assert.ok(cheapRes.recommendation.title.includes('IMPS'));
+
+    // Fastest strategy (heavily weights speed SLA)
+    const fastRes = await routeService.compareRoutes({
+      fromAmount: 5000,
+      fromCurrency: 'AED',
+      recipientName: 'Anita Sharma',
+      strategy: 'FASTEST',
+    });
+    assert.ok(fastRes.recommendedRouteId);
+    assert.equal(fastRes.recommendedRouteId, 'upi_partner'); // ~10 min
+  });
+
+  it('Excludes rail when amount exceeds rail-specific maximum limits', async () => {
+    // AED 15,000 exceeds upi_partner (max 10,000) and blockchain (max 10,000)
+    const res = await routeService.compareRoutes({
+      fromAmount: 15000,
+      fromCurrency: 'AED',
+      recipientName: 'Anita Sharma',
+    });
+
+    const upiRoute = res.routes.find(r => r.id === 'upi_partner');
+    assert.equal(upiRoute.isAvailable, false);
+    assert.ok(upiRoute.unavailableReason.includes('exceeds rail limit'));
+
+    // IMPS should still be eligible (max 25,000)
+    const impsRoute = res.routes.find(r => r.id === 'imps_bank');
+    assert.equal(impsRoute.isAvailable, true);
+    assert.equal(res.recommendedRouteId, 'imps_bank');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 11. Sanctions Screening & Compliance Blocking
+// ─────────────────────────────────────────────────────────────────────────────
+describe('11. Sanctions Screening & Compliance Blocking', () => {
+  it('Flags simulated sanctions list hit and blocks transaction creation immediately', async () => {
+    // 1. Risk evaluation flags CRITICAL
+    const assessment = riskService.evaluate({
+      fromAmount: 2000,
+      fromCurrency: 'AED',
+      senderName: 'Viktor Bout', // On simulated sanctions list
+      recipientName: 'Anita Sharma',
+      recipientUpi: 'anita@bank',
+    });
+    assert.equal(assessment.isBlocked, true);
+    assert.equal(assessment.level, 'CRITICAL');
+    const sanctionSignal = assessment.signals.find(s => s.category === 'SANCTIONS');
+    assert.ok(sanctionSignal);
+    assert.equal(sanctionSignal.severity, 'CRITICAL');
+
+    // 2. Transaction creation with sanctioned sender is hard-blocked with 400
+    await assert.rejects(
+      async () => {
+        await transactionService.createTransaction({
+          amount: 2000,
+          fromCurrency: 'AED',
+          senderName: 'Viktor Bout',
+          recipient: { name: 'Anita Sharma', upiId: 'anita@bank' },
+          routeId: 'upi_partner',
+        });
+      },
+      /Transaction blocked by risk & sanctions compliance engine/
+    );
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 12. Pre-Flight Quote Expiration & Revalidation
+// ─────────────────────────────────────────────────────────────────────────────
+describe('12. Pre-Flight Quote Expiration Revalidation', () => {
+  it('Rejects transfer confirmation if submitted quote is expired', async () => {
+    const expiredTimestamp = new Date(Date.now() - 1000 * 60).toISOString(); // 1 minute in past
+
+    await assert.rejects(
+      async () => {
+        await transactionService.createTransaction({
+          amount: 1000,
+          fromCurrency: 'AED',
+          recipient: { name: 'Pooja Verma', upiId: 'pooja@oksbi' },
+          routeId: 'upi_partner',
+          quoteExpiresAt: expiredTimestamp,
+        });
+      },
+      /Submitted quote has expired. Please refresh the quote/
+    );
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 13. Blockchain Testnet Settlement & Cryptographic Verification
+// ─────────────────────────────────────────────────────────────────────────────
+describe('13. Blockchain Settlement & Verification Provider', () => {
+  it('Distinguishes simulated testnet receipt from unverified reference without claiming fiat delivery', async () => {
+    const { blockchainVerificationProvider } = await import('../../integrations/blockchain/BlockchainVerificationProvider.js');
+
+    // Simulated testnet reference
+    const simProof = await blockchainVerificationProvider.verifySettlement('sim_sepolia_ref_1791240_abc123');
+    assert.equal(simProof.status, 'MOCK_SIMULATED');
+    assert.equal(simProof.isConfirmed, true);
+    assert.ok(simProof.note.includes('No fiat moved'));
+
+    // Empty or malformed reference
+    const invalidProof = await blockchainVerificationProvider.verifySettlement('non-existent-hash');
+    assert.equal(invalidProof.status, 'UNVERIFIED');
+    assert.equal(invalidProof.isConfirmed, false);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. Financial Arithmetic, Rounding & Boundary Audits
+// ─────────────────────────────────────────────────────────────────────────────
+describe('14. Financial Arithmetic, Rounding & Boundary Audits', () => {
+  it('Guarantees decimal arithmetic precision and prevents floating point drift', async () => {
+    const { roundTo, calculateRemittanceEconomics } = await import('../../shared/utils/money.js');
+
+    // Classic 0.1 + 0.2 float error check
+    assert.equal(roundTo(0.1 + 0.2, 2), 0.3);
+    assert.equal(roundTo('NaN'), 0);
+    assert.equal(roundTo(Infinity), 0);
+
+    // Verify economic breakdown with principal deduction
+    const eco = calculateRemittanceEconomics({
+      sendAmount: 1000.00,
+      fixedFee: 12.00,
+      midMarketRate: 24.1200,
+      appliedRate: 23.9800,
+      deductFeeFromPrincipal: true,
+    });
+
+    assert.equal(eco.sendAmount, 1000.00);
+    assert.equal(eco.fixedFee, 12.00);
+    assert.equal(eco.convertedPrincipal, 988.00);
+    assert.equal(eco.recipientAmount, 23692.24); // 988 * 23.98
+    assert.equal(eco.fxSpreadCost, 5.73); // 988 * (0.14 / 24.12) = 5.7346... -> rounded to 5.73
+    assert.equal(eco.totalCost, 17.73); // 12.00 + 5.73
+    assert.equal(eco.totalOutlay, 1000.00);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 15. FX Provider Isolation & Mock Error Handling Audits
+// ─────────────────────────────────────────────────────────────────────────────
+describe('15. FX Provider Isolation & Fallback Audits', () => {
+  it('Frankfurter provider explicitly rejects AED as unsupported by ECB', async () => {
+    const { FrankfurterProvider } = await import('../../integrations/fx/live/FrankfurterProvider.js');
+    const frank = new FrankfurterProvider();
+
+    await assert.rejects(
+      async () => {
+        await frank.getReferenceRate('AED', 'INR');
+      },
+      /AED is not tracked by the European Central Bank/
+    );
+  });
+
+  it('FxProviderRegistry falls back gracefully to configured benchmark when live provider errors', async () => {
+    const { FxProviderRegistry } = await import('../../integrations/fx/FxProviderRegistry.js');
+    const registry = new FxProviderRegistry();
+
+    // Mock an error in openErApi
+    registry.openErApi.getReferenceRate = async () => {
+      throw new Error('Simulated upstream network failure');
+    };
+
+    const rateResult = await registry.getRate('AED', 'INR', false);
+    assert.ok(rateResult);
+    assert.equal(rateResult.providerId, 'mock');
+    assert.equal(rateResult.provenance, 'CONFIGURED_ESTIMATE');
+    assert.equal(rateResult.rate, 24.12);
+  });
+
+  it('Route optimizer normalizes custom/invalid strategy weights deterministically', async () => {
+    const res = await routeService.compareRoutes({
+      fromAmount: 2500,
+      fromCurrency: 'AED',
+      recipientName: 'Anita Sharma',
+      strategy: 'NON_EXISTENT_STRATEGY', // Should fall back to DEFAULT
+    });
+
+    assert.ok(res.recommendedRouteId);
+    assert.equal(res.recommendedRouteId, 'upi_partner');
+  });
+});
+
+
